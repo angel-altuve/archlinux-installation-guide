@@ -172,7 +172,7 @@ Understood these concepts we execute **cfdisk**
 
 /*Let's start by deleting the partitions in **[ Delete ]** and creating new ones in **[ New ]**
 
-/* We select **[ Bootable ]** where the boot partition is
+/* We select **[ Bootable ]** where the Root partition is
 
 /* We can create several partitions and they will only be generated: **sda1, sda2, sda3...**
 
