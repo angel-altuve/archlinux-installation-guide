@@ -1,43 +1,44 @@
-# Guia de instalacion de Archlinux
+# archlinux installation guide 
 
-# **Primer paso**
+# # first steps 
 
-Conexión a Internet:
+Internet connection:
 
 ```bash
 ip link
 ```
 
-Al ejecutar este comando se te mostrarán varias interfaces, es decir dispositivos, para conectarse en Internet. Entre ellos debería de haber uno llamado “wlan0”.
+Executing this command will show you various interfaces, i.e. devices, to connect to the Internet. Among them there should be one called “wlan0”.
 
-[https://lh6.googleusercontent.com/qMasjy95OKEAav5ZDzoXZPDwcEMOnYpyBhr7TSE4m5ZLB1sgdBGHhqNjfsAB2DhJ-a3vkVsZ8tiUnUC0YuuelgA4s5WQXDcXx3ns6VNBL-4uM9b5P1pJVWpcftvjM0z-zEisz5KL4yZE1Upz3g](https://lh6.googleusercontent.com/qMasjy95OKEAav5ZDzoXZPDwcEMOnYpyBhr7TSE4m5ZLB1sgdBGHhqNjfsAB2DhJ-a3vkVsZ8tiUnUC0YuuelgA4s5WQXDcXx3ns6VNBL-4uM9b5P1pJVWpcftvjM0z-zEisz5KL4yZE1Upz3g)
+Next we will have to activate this device to be able to use it, to activate it we execute the following command:
 
-A continuación tendremos que activar este dispositivo para poderlo utilizar,  para activarlo ejecutamos el siguiente comando:
+***root@archiso ~ #***
 
 ```bash
 ip link set wlan0 up
 ```
 
-Si el dispositivo se ha activado correctamente entonces podremos proceder. En caso de que no esté activado, significa que ha habido algún error al intentar activar el dispositivo.
+If the device has been successfully activated then we can proceed. If it is not activated, it means that there was an error trying to activate the device.
 
-Para comprobar si el dispositivo ha sido encendido volvemos a ejecutar el comando anterior:
+To check if the device has been turned on, we execute the previous command again:
+
+***root@archiso ~ #***
 
 ```bash
 ip link
 ```
 
-Recuerda que en mi caso es «**wlan0**«, pero no tiene porqué ser siempre así, por eso hemos ejecutado **ip link** para consultarlo, y quizás tengas que adaptar los comandos según el nombre de tu dispositivo.
+Remember that in my case it is “**wlan0**“, but it doesn't always have to be like that, that's why we have run **ip link** to check it, and you may have to adapt the commands according to the name of your device.
 
-Al hacerlo, debería de aparecer junto a la interfaz, es decir juntamente con el dispositivo **“wlan0”**,  la palabra **“UP”**.
+When doing so, it should appear next to the interface, that is, together with the device **“wlan0”**, the word **“UP”**.
 
-[https://lh6.googleusercontent.com/pj4iaD-Ck4Xki4AUxaeFkD1sJf41HY7TcUh5lo1eIO_LIDMxyCwq-A1BpAZ7EVnDa4RfGdA7Y0zN3rw7PwBgQhPkhHpAWWnzYO3_Lg-M7b-AK5tS2qBe9lxjWrZioQkXxHbh0l5wf00DqKL3tw](https://lh6.googleusercontent.com/pj4iaD-Ck4Xki4AUxaeFkD1sJf41HY7TcUh5lo1eIO_LIDMxyCwq-A1BpAZ7EVnDa4RfGdA7Y0zN3rw7PwBgQhPkhHpAWWnzYO3_Lg-M7b-AK5tS2qBe9lxjWrZioQkXxHbh0l5wf00DqKL3tw)
+Once we have the device turned on we will have to scan the Wi-Fi networks that we have nearby and connect to one of them.
 
-Una vez tengamos el dispositivo encendido tendremos que escanear las redes Wi-Fi que tenemos cercanas y conectarnos a una de ellas.
+To perform a scan of Wi-Fi networks we will have to execute the following command:
 
-Para realizar un escaneo de las redes Wi-Fi tendremos que ejecutar el siguiente comando:
-
+***root@archiso ~ #***
 ```bash
-root@archiso ~ # iwlist wlan0 scan
+iwlist wlan0 scan
 ```
 
 Este comando mostrará una lista completa con todas las redes Wi-Fi que tenemos cercanas, así como el nombre de cada una de ellas.
