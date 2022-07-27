@@ -4,6 +4,7 @@
 
 Internet connection:
 
+***root@archiso ~ #***
 ```bash
 ip link
 ```
