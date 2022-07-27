@@ -133,93 +133,77 @@ Disk path can be:
 | pseudo-graphics        | cfdisk          | cgdisk, cfdisk
 | no-iterative           | sfdisk, parted  |sfdisk, sgdisk parted
 
-**>> Estructura de ficheros en Linux**
+**>> Linux file structure**
 
-[https://lh5.googleusercontent.com/oZH_qnVuMST5wpGpqnNChYASeuRQ-6zviiNyYhzAduzk3KDt-zK-XFxqTdRoKkA9crN-_MCsPvMXNVNuTsrkT3KgpxNwporMaO8sEn05sDh_j81UayCjpf91SKysz7ZaKH6tW3ZhEbmZpIrgbp0](https://lh5.googleusercontent.com/oZH_qnVuMST5wpGpqnNChYASeuRQ-6zviiNyYhzAduzk3KDt-zK-XFxqTdRoKkA9crN-_MCsPvMXNVNuTsrkT3KgpxNwporMaO8sEn05sDh_j81UayCjpf91SKysz7ZaKH6tW3ZhEbmZpIrgbp0)
+We must know that the other folders are born from **root**
 
-Debemos saber que de **root** nacen las demás carpetas
+The advantage that **Linux allows assigning a partition for each folder**
 
-La ventaja que **Linux permite asignar una partición para cada carpeta**
+We can have **/boot/** in a partition
 
-Podemos tener **/boot/** en una partición
+We can have **/home/** in another partition
 
-Podemos tener **/home/** en otra partición
+***/home/** the HOME folder stores the files of all users something similar to a DISK D: of windows*
 
-***/home/** la carpeta HOME guarda los archivos de todos los usuarios algo parecido a un DISCO D: de windows*
+*It all depends if we want to have it separated in another partition*
 
-*Todo depende si queremos tenerlo separado en otra partición*
+Which can be good or bad, depends on the needs of the user
 
-Lo cual puede ser bueno o malo, depende de las necesidades del usuario
+**Examples of partitions:**
 
-**Ejemplos de particiones:**
+## **>> SWAP Memory**
 
-[https://lh3.googleusercontent.com/ZxOR0wz0-ch7AF828zYaLhYyIHnr6J1QdNOFCC13VZbbBsKqsiviPikqtzaw6URccyUpN4BgIiki_wKzEr59rUqGsEOkK6YV_nWIfV0Q3LfHplB03uBykzatqB_3zeI9uQuZ5RKK2UqJZfoL-tg](https://lh3.googleusercontent.com/ZxOR0wz0-ch7AF828zYaLhYyIHnr6J1QdNOFCC13VZbbBsKqsiviPikqtzaw6URccyUpN4BgIiki_wKzEr59rUqGsEOkK6YV_nWIfV0Q3LfHplB03uBykzatqB_3zeI9uQuZ5RKK2UqJZfoL-tg)
+Less than 1GB physical RAM >> 2GB SWAP
 
-[https://lh6.googleusercontent.com/8mWLWWSASUlNuUI84xdQ-ZtoXdlZEzpTHvoHZYVmSlwfbKA9n6C5LXsTQyYLNeESIbLGN9mBXlVxw9TyYE9WpXYJdzgJcLfhb9CD1EjzAFKbTheI9wsgEQma4i04ekQ-HWrUd2uSnDxEUJ6st_4](https://lh6.googleusercontent.com/8mWLWWSASUlNuUI84xdQ-ZtoXdlZEzpTHvoHZYVmSlwfbKA9n6C5LXsTQyYLNeESIbLGN9mBXlVxw9TyYE9WpXYJdzgJcLfhb9CD1EjzAFKbTheI9wsgEQma4i04ekQ-HWrUd2uSnDxEUJ6st_4)
+Between 2GB to 4GB physical RAM >> 2GB to 4GB SWAP
 
-[https://lh6.googleusercontent.com/znHoqgKrF6nSReDVB3WjJbKXF9sX0Y-qixe8URIzo5KlxuuTi0uZE4e5rf3ZXICF3H6enx9Tmhn9C7nMnnGo0uO-IIc4oRLlCwnGAartQ_fmWsvLiesb3T9-57xhPRqdeXN3jJj_igKVNZDqc2Y](https://lh6.googleusercontent.com/znHoqgKrF6nSReDVB3WjJbKXF9sX0Y-qixe8URIzo5KlxuuTi0uZE4e5rf3ZXICF3H6enx9Tmhn9C7nMnnGo0uO-IIc4oRLlCwnGAartQ_fmWsvLiesb3T9-57xhPRqdeXN3jJj_igKVNZDqc2Y)
+8GB physical RAM >> 4GB SWAP
 
-[https://lh6.googleusercontent.com/ti-1vERW0La1aXp1zsU52Dbph9lHhj9gN85b5A-6JDUbinLvhlMml65MVStAhQaUZ_nCxE-xhKhOiEh0BjB0TtvTozvw2g1-DjRrMoH53ddFk0ANO1Z3WFfHlEr_MW-yydNdFL41OBq7Scut_qw](https://lh6.googleusercontent.com/ti-1vERW0La1aXp1zsU52Dbph9lHhj9gN85b5A-6JDUbinLvhlMml65MVStAhQaUZ_nCxE-xhKhOiEh0BjB0TtvTozvw2g1-DjRrMoH53ddFk0ANO1Z3WFfHlEr_MW-yydNdFL41OBq7Scut_qw)
+More than 8GB of physical RAM >> 2GB to 4GB of SWAP
 
-## **>> Memoria SWAP**
-
-Menos de 1GB RAM física >> 2GB de SWAP
-
-Entre 2GB a 4GB RAM física >> 2GB a 4GB de SWAP
-
-8GB de RAM física >> 4GB de SWAP
-
-Más de 8GB de RAM física >> 2GB a 4GB de SWAP
-
-[https://lh4.googleusercontent.com/0oHz1IaBZ4Viun6CLfEQ1cDC9ovgxwS_smchg9eo1Vu_PH1SdJeXrPY8FfqvAXF6mIhm8hIDAdRlJzyBmMlSQ0NQGjH0nsfpLXBr0iRGioZnkAH8_veDTEnMI8NKQUKZSSh40dQADHuf3jbgHUQ](https://lh4.googleusercontent.com/0oHz1IaBZ4Viun6CLfEQ1cDC9ovgxwS_smchg9eo1Vu_PH1SdJeXrPY8FfqvAXF6mIhm8hIDAdRlJzyBmMlSQ0NQGjH0nsfpLXBr0iRGioZnkAH8_veDTEnMI8NKQUKZSSh40dQADHuf3jbgHUQ)
-
-Entendido estos conceptos ejecutamos **cfdisk**
-
-[https://lh4.googleusercontent.com/ADdEn9fjcrW1Yd88n0qvsZDTItWdodrZoZlAealyqa8Nzxv6UAME4-gHO486Heo2mTAEV0bC5ccvmPeqob2g38Sk7kl27CDxAgJM7scQ-3MIJY9EwMmjV0jqIw80umMkvb-L6uN8q2KELYU_cCk](https://lh4.googleusercontent.com/ADdEn9fjcrW1Yd88n0qvsZDTItWdodrZoZlAealyqa8Nzxv6UAME4-gHO486Heo2mTAEV0bC5ccvmPeqob2g38Sk7kl27CDxAgJM7scQ-3MIJY9EwMmjV0jqIw80umMkvb-L6uN8q2KELYU_cCk)
+Understood these concepts we execute **cfdisk**
 
 ***root@archiso ~ #***
 ```bash
  cfdisk /dev/sda
 ```
 
-/*Vamos empezar eliminando las particiones en **[ Delete ]** y creando nuevas en **[ New ]**
+/*Let's start by deleting the partitions in **[ Delete ]** and creating new ones in **[ New ]**
 
-/*Seleccionamos **[ Bootable ]** donde esta la partición de arranque
+/* We select **[ Bootable ]** where the boot partition is
 
-/*Podemos crear varias particiones y solo se generarán: **sda1, sda2, sda3...**
+/* We can create several partitions and they will only be generated: **sda1, sda2, sda3...**
 
-/*Podemos crear las particiones y cambiar el tipo de partición en **[ Type ]**
+/* We can create the partitions and change the partition type in **[ Type ]**
 
-/***Flecha Arriba / Abajo - Flechas Derecha / Izquierda** - para movernos en cfdisk
+/***Up / Down Arrow - Right / Left Arrows** - to move in cfdisk
 
-**En este ejemplo usaremos:**
+**In this example we will use:**
 
-Sda1 > boot
+sda1 > boot
 
-Sda2 > root - home
+sda2 > root -home
 
 Sda3 > Swap
 
-/*Al finalizar el particionado le damos en **[ Write ]** para escribir los cambios
+/* At the end of the partitioning we give it in **[ Write ]** to write the changes
 
-[https://lh5.googleusercontent.com/gvc_7LNDe9-GZwsQlzQGlwTqXFp33L-HQHm9EHrWIjVznpyIIRRnb3hP-FbJGuYx0tLTZ5gfx3WC4FNiF8KgZgog-e0vylh62BRCWEsuiCPKfJQr7ems9B0rzJH4VDc602kzaCCOjRq0xKHe5ts](https://lh5.googleusercontent.com/gvc_7LNDe9-GZwsQlzQGlwTqXFp33L-HQHm9EHrWIjVznpyIIRRnb3hP-FbJGuYx0tLTZ5gfx3WC4FNiF8KgZgog-e0vylh62BRCWEsuiCPKfJQr7ems9B0rzJH4VDc602kzaCCOjRq0xKHe5ts)
+## **Format the partitions**
 
-## **Formatear las particiones**
+There are multiple partition formats available to use, however in this guide we will use ext4
 
-Existen múltiples formatos de particiones disponibles para usar, sin embargo en esta guía usaremos ext4
+Ext4 is the most used and recommended.
 
-Ext4 es el más usado y recomendado.
+Ext4 is a Linux journaling file system.
 
-Ext4 es un sistema de archivos transaccional (en inglés journaling) de Linux
-
-Formateo de la Partición de arranque:
+Boot Partition Format:
 
 ***root@archiso ~ #***
 ```bash
 mkfs.ext4 /dev/sda1
 ```
 
-Formateo de la Partición de Root y Home en una sola partición:
+Format Root and Home Partition into one partition:
 
 ***root@archiso ~ #***
 ```bash
@@ -233,7 +217,7 @@ Partición de memoria virtual o memoria de intercambio SWAP:
 mkswap /dev/sda3
 ```
 
-Activar partición SWAP:
+Activate SWAP partition:
 
 ***root@archiso ~ #***
 ```bash
