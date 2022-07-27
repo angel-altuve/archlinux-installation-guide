@@ -821,6 +821,12 @@ Finally, create and install the Paru AUR helper on Arch Linux using the command:
 makepkg -si
 ```
 
+**note delete the paru folder this can avoid problems**
+
+``` bash
+rm -rf paru
+```
+
 Supplemental Firmware
 
 ```bash
