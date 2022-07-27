@@ -443,7 +443,7 @@ ls /usr/share/zoneinfo/Europe/
 
 **[root@archiso /]#**
 ```bash
-ln -sf /usr/share/zoneinfo/America/<name of your area> /etc/localtime
+ln -sf /usr/share/zoneinfo/America/Region/City  /etc/localtime
 ```
 
 ## **User Configuration**
