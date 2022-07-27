@@ -450,12 +450,18 @@ ln -sf /usr/share/zoneinfo/America/<name of your area> /etc/localtime
 
 The system is configured to read the computer's internal clock, then the system clock
 
-Set the RTC from the system time.
+**[root@archiso /]#**
+```bash
+hwclock --systohc
+```
+
+Use timedatectl to ensure the system clock is accurate: 
 
 **[root@archiso /]#**
 ```bash
-hwclock -w
+ timedatectl set-ntp true
 ```
+
 
 Define the keyboard layout in vconsole.conf
 
@@ -792,7 +798,7 @@ sudo pacman -S pulseaudio pulseaudio-alsa alsa-mixer pavucontrol
 ### **letter fonts**
 
 ```bash
-sudo pacman -S gnu-free-fonts ttf-hack ttf-inconsolata
+sudo pacman -S  ttf-hack ttf-jetbrains-mono ttf-joypixels ttf-ms-fonts ttf-ubuntu-font-family otf-font-awesomeotf adobe-source-code-pro-fonts adobe-source-sans-fonts
 ```
 
 ### **Installation  paru**
