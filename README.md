@@ -813,12 +813,5 @@ makepkg -si
 paru -S mkinitcpio-firmware
 ```
 
-Utilities
-
-```bash
-sudo pacman -S exa bat
-```
-
-```bash
-paru -S shell-color-scripts
-```
+**go through my xmonad configuration**
+[xmonad](https://github.com/angel-altuve/dotfiles)
