@@ -14,7 +14,6 @@ Executing this command will show you various interfaces, i.e. devices, to connec
 Next we will have to activate this device to be able to use it, to activate it we execute the following command:
 
 ***root@archiso ~ #***
-
 ```bash
 ip link set wlan0 up
 ```
@@ -42,101 +41,93 @@ To perform a scan of Wi-Fi networks we will have to execute the following comman
 iwlist wlan0 scan
 ```
 
-Este comando mostrará una lista completa con todas las redes Wi-Fi que tenemos cercanas, así como el nombre de cada una de ellas.
+This command will show a complete list with all the Wi-Fi networks that we have nearby, as well as the name of each of them.
 
-El nombre de la red Wi-Fi juntamente con la contraseña es lo que tendremos que utilizar a continuación para conectarnos.
+The name of the Wi-Fi network together with the password is what we will have to use next to connect.
 
-[https://lh5.googleusercontent.com/d9Uf0OuYypeVEgjfFlxQ4Q6ZXgO9YmETnpIPqLc2n1neS5c07uydLz-Us746rwmvboFsI0ZMeDw5lD4DbFERaB31Yu8xmhptVrVGLaJj4xuuASiWtLnOwkSkjCoyFBnu58m3K68JwQziCxpVyA](https://lh5.googleusercontent.com/d9Uf0OuYypeVEgjfFlxQ4Q6ZXgO9YmETnpIPqLc2n1neS5c07uydLz-Us746rwmvboFsI0ZMeDw5lD4DbFERaB31Yu8xmhptVrVGLaJj4xuuASiWtLnOwkSkjCoyFBnu58m3K68JwQziCxpVyA)
+## Connect to a Wi-Fi network with a WPA password
 
-## Conectarse a una red Wi-Fi con contraseña WPA
+If the Wi-Fi network to which we want to connect uses the WPA or WPA2 encryption protocol, then we will have to execute two commands.
 
-Si la red Wi-Fi a la cual nos queremos conectar utiliza protocolo de encriptación WPA o WPA2, entonces tendremos que ejecutar dos comandos.
+The first command is to configure the password that we are going to use and the ESSID, and we save it in a configuration file, for example **“/etc/wifi”**:
 
-En mi caso, como habéis podido observar en la imagen anterior, mi red Wifi (PerezWifi) con encriptación WPA, y por ende, es el método que tendré que utilizar.
-
-[https://lh4.googleusercontent.com/OHFyyMPjpoRUFwr8Y6Huhby-vyHbCN-2GaH0LTdWMh7zC99Wdh8tyhQq_Bw7d0NAwgOdu2Xy-yBOjIQt6S8IORqlQxioh4V6277sQg4puQ93ZtT6-e4GpEB1ps_sfT03meT13hh7nLppz65rpw](https://lh4.googleusercontent.com/OHFyyMPjpoRUFwr8Y6Huhby-vyHbCN-2GaH0LTdWMh7zC99Wdh8tyhQq_Bw7d0NAwgOdu2Xy-yBOjIQt6S8IORqlQxioh4V6277sQg4puQ93ZtT6-e4GpEB1ps_sfT03meT13hh7nLppz65rpw)
-
-El primer comando es para configurar la contraseña que vamos a utilizar y el ESSID, y la guardamos en un archivo de configuración, por ejemplo **“/etc/wifi”**:
-
+***root@archiso ~ #***
 ```bash
-wpa_passphrase PerezWifi Contraseña > /etc/wifi
+wpa_passphrase <WiFi network name> <passwd> > /etc/wifi
 ```
 
-El fichero **«/etc/wifi»** que se ha generado podéis visualizarlo con el comando:
+The file **«/etc/wifi»** that has been generated can be viewed with the command:
 
+***root@archiso ~ #***
 ```bash
 cat /etc/wifi
 ```
 
-A continuación tendremos que conectarnos a esta red Wi-Fi utilizando el fichero de configuración que hemos generado, para ello tendremos que ejecutar el siguiente comando:
+Next we will have to connect to this Wi-Fi network using the configuration file that we have generated, for this we will have to execute the following command:***root@archiso ~ #***
 
 ```bash
 wpa_supplicant -B -i wlan0 -D wext -c /etc/wifi
 ```
 
-El comando «**wpa_supplicant**» sirve para conectarnos a una red Wifi que utilice **WPA/WPA2** como método de encriptación.
+The command "**wpa_supplicant**" is used to connect to a Wi-Fi network that uses **WPA/WPA2** as the encryption method.
 
-[https://lh5.googleusercontent.com/0Gc-H8QitBQK_oRnUTQtnu46G26ABUO5pQ9CPlivrInW6uXWKrLvXbZzI-8UWaa0lwVQ1BM15IhNgbQExCzz0IuR23uoiNJ6qGrQ5f_74lgc89HoB5Gz0TEXJ758tk6P-Mj9qd8OW50Rmlc70A](https://lh5.googleusercontent.com/0Gc-H8QitBQK_oRnUTQtnu46G26ABUO5pQ9CPlivrInW6uXWKrLvXbZzI-8UWaa0lwVQ1BM15IhNgbQExCzz0IuR23uoiNJ6qGrQ5f_74lgc89HoB5Gz0TEXJ758tk6P-Mj9qd8OW50Rmlc70A)
+The **-B** argument indicates that the command will be executed in the background. This prevents the "log" from appearing on the command line.
 
-El argumento **-B** indica que el comando será ejecutado en segundo plano. Esto evita que aparezca el «log» en la línea de comandos.
+The **-i** argument is used to specify the name of the Wi-Fi interface, in this case **"wlan0"**.
 
-El argumento **-i** sirve para especificar el nombre de la interfaz wifi, en este caso, **«wlan0»**.
+The argument **-D** indicates the "driver" or controller to use, in this case, I use **"wext"**.
 
-El argumento **-D** indica el «driver» o controlador a utilizar, en este caso, utilizo **«wext»**.
+Finally, the **-c** argument is used to indicate the configuration file to use, in this case, **«/etc/wifi»**, which we have generated with the previous command: **wpa_passphrase**.
 
-Finalmente, el argumento **-c** sirve para indicar el archivo de configuración a utilizar, en este caso, **«/etc/wifi»**, el cual hemos generado con el comando anterior: **wpa_passphrase**.
+## **End Wi-Fi connection**
 
-## **Finalizar conexión Wi-Fi**
+Once we have made the connection, depending on the type of Wi-Fi network password, we will have to end the connection and establish an IP negotiation. This may seem very complicated, but it really is not, since we only have to execute a single command:
 
-Una vez hayamos realizado la conexión, según el tipo de contraseña de la red Wi-Fi, tendremos que finalizar la conexión y establecer una negociación IP. Esto puede parecer muy complicado, pero realmente no lo es, pues sólo tenemos que ejecutar un único comando:
-
+***root@archiso ~ #***
 ```bash
 dhclient
 ```
 
-El comando **dhclient** sirve para realizar la negociación **IP**, es decir, para obtener una dirección **IP** local y una dirección **DNS** automáticamente. Sin este comando, aun estando conectados a la red wifi, no tendríamos conexión a Internet.
+The **dhclient** command is used to perform **IP** negotiation, that is, to obtain a local **IP** address and a **DNS** address automatically. Without this command, even being connected to the Wi-Fi network, we would not have an Internet connection.
 
-[https://lh6.googleusercontent.com/vwhsc4XwQydsc6sXqcNwRtqr3UFGBiu9frU0tAMjJArTlkWDsZKVkda8okyVxhAd85E8K9-bWVlYlXNu3Prz5xWZnMWLXZxFsWM6ofh04IB08vvmwGqibEGrF4bhfcoL8pl2gAHW0_OtcduBqg](https://lh6.googleusercontent.com/vwhsc4XwQydsc6sXqcNwRtqr3UFGBiu9frU0tAMjJArTlkWDsZKVkda8okyVxhAd85E8K9-bWVlYlXNu3Prz5xWZnMWLXZxFsWM6ofh04IB08vvmwGqibEGrF4bhfcoL8pl2gAHW0_OtcduBqg)
+Once this is done, we would already have a connection via Wi-Fi, which we can check in the same way as if we were using cable with the “**ping**” command:
 
-Hecho esto, ya tendríamos conexión vía Wi-Fi,  lo cuál podemos comprobar de igual manera que si utilizáramos cable con el comando “**ping**”:
-
+``` bash
 root@archiso ~ # ping google.com
+```
 
-## **Particionar disco:**
+## **Partition disk:**
 
-****Para consultar la tabla de particiones que tiene su disco duro donde va a instalar el Sistema Operativo use el siguiente comando.
+****To consult the partition table of your hard disk where you are going to install the Operating System, use the following command.
 
+***root@archiso ~ #***
 ```bash
 fdisk -l
 ```
 
-[https://lh3.googleusercontent.com/RS-KZuWN8-wormEHv1-UKqLVeZJsGHzgDKDHUfXkH9e8y11e-CAKj517GAYdhHZ7faetCfxcJHD3iljTUqU5qoLedTb9bF8xy60l_XK-rPZhjrKHub2dglV5zEPK8IGzNFzvN4iCQHvQtDgDZI0](https://lh3.googleusercontent.com/RS-KZuWN8-wormEHv1-UKqLVeZJsGHzgDKDHUfXkH9e8y11e-CAKj517GAYdhHZ7faetCfxcJHD3iljTUqU5qoLedTb9bF8xy60l_XK-rPZhjrKHub2dglV5zEPK8IGzNFzvN4iCQHvQtDgDZI0)
+## **HDD**
 
-## **Disco Duro**
+First we must identify what the path of our disks is like, then know which are partitions.
 
-Primero debemos identificar como es la ruta de nuestros discos luego saber cuales son particiones.
+Disk path can be:
 
-Ruta de disco pueden ser:
+/dev/sda (sdd or hdd)
 
-/dev/sda (sdd o hdd)
+/dev/sdb (sdd or hdd)
 
-/dev/sdb (sdd o hdd)
+/dev/sdc (This is how it changes letters...)
 
-/dev/sdc (Así cambia de letra...)
+/dev/nvme0n1 (veMMC or SD Card)
 
-/dev/nvme0n1 (veMMC o SD Card)
-
-/dev/mmcblk0 (veMMC o SD Card)
-
+/dev/mmcblk0 (veMMC or SD Card)
 ## lsblk
 
-### **Crear las particiones**
+### **Create the partitions**
 
-**>> Arch Linux incluye las siguientes herramientas de particionado:**
+**>> Arch Linux includes the following partitioning tools:**
 
+![https://github.com/angel-altuve/archlinux-installation-guide/blob/main/img/partitions.png?raw=true](https://github.com/angel-altuve/archlinux-installation-guide/blob/main/img/partitions.png?raw=true)
 ## 
-
-[https://lh3.googleusercontent.com/Ijrd4_eCuhLrcA0btmeSj5_06ZkN6XH1vKc_4xmS6EfBirJ4lRsBhI2Z3PGljpZqfEwtzmSx5_2Tx341Ixp_4YCet7Z5E7oD0neJEazV17iraemrJ6Ibo6lmJRExuDl4D-35lITfLA_EODhf_NM](https://lh3.googleusercontent.com/Ijrd4_eCuhLrcA0btmeSj5_06ZkN6XH1vKc_4xmS6EfBirJ4lRsBhI2Z3PGljpZqfEwtzmSx5_2Tx341Ixp_4YCet7Z5E7oD0neJEazV17iraemrJ6Ibo6lmJRExuDl4D-35lITfLA_EODhf_NM)
 
 **>> Estructura de ficheros en Linux**
 
@@ -182,6 +173,7 @@ Entendido estos conceptos ejecutamos **cfdisk**
 
 [https://lh4.googleusercontent.com/ADdEn9fjcrW1Yd88n0qvsZDTItWdodrZoZlAealyqa8Nzxv6UAME4-gHO486Heo2mTAEV0bC5ccvmPeqob2g38Sk7kl27CDxAgJM7scQ-3MIJY9EwMmjV0jqIw80umMkvb-L6uN8q2KELYU_cCk](https://lh4.googleusercontent.com/ADdEn9fjcrW1Yd88n0qvsZDTItWdodrZoZlAealyqa8Nzxv6UAME4-gHO486Heo2mTAEV0bC5ccvmPeqob2g38Sk7kl27CDxAgJM7scQ-3MIJY9EwMmjV0jqIw80umMkvb-L6uN8q2KELYU_cCk)
 
+***root@archiso ~ #***
 ```bash
  cfdisk /dev/sda
 ```
@@ -218,24 +210,28 @@ Ext4 es un sistema de archivos transaccional (en inglés journaling) de Linux
 
 Formateo de la Partición de arranque:
 
+***root@archiso ~ #***
 ```bash
 mkfs.ext4 /dev/sda1
 ```
 
 Formateo de la Partición de Root y Home en una sola partición:
 
+***root@archiso ~ #***
 ```bash
 mkfs.ext4 /dev/sda2
 ```
 
 Partición de memoria virtual o memoria de intercambio SWAP:
 
+***root@archiso ~ #***
 ```bash
 mkswap /dev/sda3
 ```
 
 Activar partición SWAP:
 
+***root@archiso ~ #***
 ```bash
 swapon /dev/sda3
 ```
@@ -244,6 +240,7 @@ swapon /dev/sda3
 
 Ahora para root en este ejemplo es ***/dev/sda2*** lo cual debe ser montado primero ya que todo inicia con ***ROOT /***
 
+***root@archiso ~ #***
 ```bash
 mount /dev/sda2 /mnt/
 ```
@@ -254,18 +251,21 @@ Si va a instalar Archlinux como único sistema en modo BIOS/Legacy, entonces nec
 
 En este caso solo tenemos ***/boot*** en /dev/sda1
 
+***root@archiso ~ #***
 ```bash
 mkdir -p /mnt/boot/
 ```
 
 Montando la partición de Arranque ***/boot***
 
+***root@archiso ~ #***
 ```bash
 mount /dev/sda1 /mnt/boot
 ```
 
 Verificamos que se hayan creado correctamente los directorios
 
+***root@archiso ~ #***
 ```bash
 ls /mnt/
 ```
@@ -282,12 +282,14 @@ Pero hay muchos casos que a los pacstrap les resulta una descarga muy lenta y es
 
 Para tener los Mirrors más rápidos para tener mejores descargas usaremos ***reflector***
 
+***root@archiso ~ #***
 ```bash
 pacman -Sy reflector python --noconfirm
 ```
 
 Para ejecutar reflector y tener los mejores Mirrors Servers es:
 
+***root@archiso ~ #***
 ```bash
 reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
 ```
@@ -296,6 +298,7 @@ Para revisar la lista de Mirrors Servers y confirmar que lo hizo reflector el co
 
 Confirmamos comparando donde dice ***by Reflector***
 
+***root@archiso ~ #***
 ```bash
 cat /etc/pacman.d/mirrorlist
 ```
@@ -306,14 +309,16 @@ cat /etc/pacman.d/mirrorlist
 
 **Especificación de los paquetes necesarios.**
 
+***root@archiso ~ #***
 ```bash
-root@archiso ~ # pacstrap /mnt base base-devel nano
+pacstrap /mnt base base-devel nano
 ```
 
 /* **Instalación base - base-devel**: programas, configuraciones, directorios, etc...
 
 /* **Editor de texto en terminal**: Nano
 
+***root@archiso ~ #***
 ```bash
 pacstrap /mnt linux-firmware linux linux-headers mkinitcpio
 ```
@@ -332,17 +337,20 @@ Después de la instalación del Kernel, Automático se crearán las IMG de Linux
 
 Los siguientes paquetes nos permiten gestionar las conexiones a Internet
 
+***root@archiso ~ #***
 ```bash
 pacstrap /mnt dhcpcd networkmanager net-tools wpa_supplicant dialog netctl
 ```
 En el caso que uses una laptop, para el Bluetooth: (opcional)
 
+***root@archiso ~ #***
 ```bash
 pacstrap /mnt bluez bluez-utils pulseaudio-bluetooth
 ```
 
 Si sale un error al usar pacstrap del tipo "error: could not open file /mnt/var/lib/pacman/sync/core.db: Unrecognized archive format" tenemos que eliminar el directorio "...sync/" de forma recursiva para solucionarlo.
 
+***root@archiso ~ #***
 ```bash
 rm -R /mnt/var/lib/pacman/sync/
 ```
@@ -355,6 +363,7 @@ Estas definiciones se montaron de forma dinámica en el arranque
 
 [https://lh6.googleusercontent.com/fxdMgFWWurNbZeRE1JrAWDQ_Qyd1QwDs9I8EQOOjAGZryHNvmnqyg06kILg3_JOta97jmaeOzqWVfCE-pYzvS0fOf8eUhgQkmNvoDSkGPeSDnLERA0sPeBZWVwnd2DQhLzIMGZ40vlTN-oimqeM](https://lh6.googleusercontent.com/fxdMgFWWurNbZeRE1JrAWDQ_Qyd1QwDs9I8EQOOjAGZryHNvmnqyg06kILg3_JOta97jmaeOzqWVfCE-pYzvS0fOf8eUhgQkmNvoDSkGPeSDnLERA0sPeBZWVwnd2DQhLzIMGZ40vlTN-oimqeM)
 
+***root@archiso ~ #***
 ```bash
 genfstab -p /mnt >> /mnt/etc/fstab
 ```
@@ -363,6 +372,7 @@ genfstab -p /mnt >> /mnt/etc/fstab
 
 **/*Revisamos con:**
 
+***root@archiso ~ #***
 ```bash
 cat /mnt/etc/fstab
 ```
@@ -373,6 +383,7 @@ cat /mnt/etc/fstab
 
 Entramos a la raíz del nuevo sistema como usuario root.
 
+***root@archiso ~ #***
 ```bash
 arch-chroot /mnt
 ```
@@ -383,6 +394,7 @@ arch-chroot /mnt
 
 /* Dentro de nuestro sistema vamos a configurar idioma, teclado, hora y usuarios.
 
+***[root@archiso /]#***
 ```bash
 nano /etc/locale.gen
 ```
@@ -403,30 +415,34 @@ Ctrl + X para cerrar en nano
 
 Generamos el idioma seleccionado
 
+***[root@archiso /]#***
 ```bash
 locale-gen
 ```
 
 establezca la variable LANG en locale.conf
 
-Mi caso es **es_PE.UTF-8**
 
+***[root@archiso /]#***
 ```bash
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 ```
 
 Exporte la variable LANG con el local especificado
 
+***[root@archiso /]#***
 ```bash
 export LANG=es_PE.UTF-8
 ```
 
 [https://lh6.googleusercontent.com/7B7MFnqVHZL2pwWxfQKg2he5t0oDM6VE7Qga9bipKExT-QDNMD3ZQq101FxLdp-Dm_U-kJG4gwmfLWFtCVg58_5Z4I-7VSAaxKGX7SkVwr-Fc4Jgc4fBfEiXCz3ZRHZjBr02NAHIZiZSEgk2GVE](https://lh6.googleusercontent.com/7B7MFnqVHZL2pwWxfQKg2he5t0oDM6VE7Qga9bipKExT-QDNMD3ZQq101FxLdp-Dm_U-kJG4gwmfLWFtCVg58_5Z4I-7VSAaxKGX7SkVwr-Fc4Jgc4fBfEiXCz3ZRHZjBr02NAHIZiZSEgk2GVE)
 
+***[root@archiso /]#***
 ```bash
 ls /usr/share/zoneinfo/America/
 ```
 
+***[root@archiso /]#***
 ```bash
 ls /usr/share/zoneinfo/Europe/
 ```
@@ -435,6 +451,7 @@ ls /usr/share/zoneinfo/Europe/
 
 /* Mi caso es de Venezuela y la ciudad es Maracaibo (America/Caracas).
 
+***[root@archiso /]#***
 ```bash
 ln -sf /usr/share/zoneinfo/America/Caracas /etc/localtime
 ```
