@@ -401,11 +401,25 @@ locale-gen
 ```
 
 set the LANG variable in locale.conf
-
+set the LC_CTYPE variable in locale.conf
+set the LC_TIME variable in locale.conf
+set the LC_COLLATE variable in locale.conf
 
 ***[root@archiso /]#***
 ```bash
 echo LANG=en_US.UTF-8 > /etc/locale.conf
+```
+
+``` bash
+echo LC_CTYPE=en_US.UTF-8 > /etc/locale.conf
+```
+
+``` bash
+echo LC_TIME=en_US.UTF-8 > /etc/locale.conf
+```
+
+``` bash
+echo LC_COLLATE=en_US.UTF-8 > /etc/locale.conf
 ```
 
 Export the LANG variable with the locale specified
@@ -772,7 +786,7 @@ sudo pacman -S xf86-video-intel
 **Audio**
 
 ```bash
-sudo pacman -S pulseaudio pavucontrol
+sudo pacman -S pulseaudio pulseaudio-alsa alsa-mixer pavucontrol
 ```
 
 ### **letter fonts**
@@ -807,7 +821,7 @@ Finally, create and install the Paru AUR helper on Arch Linux using the command:
 makepkg -si
 ```
 
-**Supplemental Firmware**
+Supplemental Firmware
 
 ```bash
 paru -S mkinitcpio-firmware
