@@ -383,9 +383,9 @@ arch-chroot /mnt
 nano /etc/locale.gen
 ```
 
-/* We remove the ***#*** which is a comment in our language >> ***in_*** and our country
+/* We remove the ***#*** which is a comment in our language >> ***en*** and our country
 
-/*Must end in ***in_[country].UTF-8 UTF-8***
+/*Must end in ***en_US.UTF-8***
 
 Ctrl + W to search for words in nano
 
@@ -429,7 +429,7 @@ ls /usr/share/zoneinfo/Europe/
 
 ***[root@archiso /]#***
 ```bash
-ln -sf /usr/share/zoneinfo/America/<"name of your area"> /etc/localtime
+ln -sf /usr/share/zoneinfo/America/<name of your area> /etc/localtime
 ```
 
 ## **User Configuration**
@@ -709,7 +709,7 @@ Processor manufacturers release stability and security updates for processor mic
 
 We don't have the common directories:
 
-Desk
+Desktop
 
 documents
 
@@ -781,7 +781,7 @@ sudo pacman -S pulseaudio pavucontrol
 sudo pacman -S gnu-free-fonts ttf-hack ttf-inconsolata
 ```
 
-### **Installation and configuration of paru**
+### **Installation  paru**
 
 First install git and base-devel Package Association which contains tools for creating (classifying and linking) packages from source code
 
@@ -805,14 +805,6 @@ Finally, create and install the Paru AUR helper on Arch Linux using the command:
 
 ```bash
 makepkg -si
-```
-
-**paru configuration**
-
-### Enable color in Paru
-
-```bash
-sudo nano /etc/pacman.conf
 ```
 
 **Supplemental Firmware**
