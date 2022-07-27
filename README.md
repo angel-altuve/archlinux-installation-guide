@@ -92,8 +92,9 @@ The **dhclient** command is used to perform **IP** negotiation, that is, to obta
 
 Once this is done, we would already have a connection via Wi-Fi, which we can check in the same way as if we were using cable with the “**ping**” command:
 
+***root@archiso ~ #***
 ``` bash
-root@archiso ~ # ping google.com
+ping google.com
 ```
 
 ## **Partition disk:**
@@ -210,7 +211,7 @@ Format Root and Home Partition into one partition:
 mkfs.ext4 /dev/sda2
 ```
 
-Partición de memoria virtual o memoria de intercambio SWAP:
+Virtual memory partition or SWAP swap memory:
 
 ***root@archiso ~ #***
 ```bash
@@ -224,191 +225,181 @@ Activate SWAP partition:
 swapon /dev/sda3
 ```
 
-### **Montar las particiones**
+### **Mount the partitions**
 
-Ahora para root en este ejemplo es ***/dev/sda2*** lo cual debe ser montado primero ya que todo inicia con ***ROOT /***
+Now for root in this example it is ***/dev/sda2*** which must be mounted first since everything starts with ***ROOT /***
 
 ***root@archiso ~ #***
 ```bash
 mount /dev/sda2 /mnt/
 ```
 
-Para montar las particiones necesitamos crear antes las rutas lógicas de montaje.
+To mount the partitions we need to first create the logical mount paths.
 
-Si va a instalar Archlinux como único sistema en modo BIOS/Legacy, entonces necesitamos crear ***/mnt*** y dentro de este directorio incluir ***/boot*** o ***/home*** o ***/tmp*** o etc...
+If you are going to install Archlinux as a single system in BIOS/Legacy mode, then we need to create ***/mnt*** and inside this directory include ***/boot*** or ***/home*** or * **/tmp*** or etc...
 
-En este caso solo tenemos ***/boot*** en /dev/sda1
+In this case we only have ***/boot*** on /dev/sda1
 
 ***root@archiso ~ #***
 ```bash
 mkdir -p /mnt/boot/
 ```
 
-Montando la partición de Arranque ***/boot***
+Mounting the Boot partition ***/boot***
 
 ***root@archiso ~ #***
 ```bash
 mount /dev/sda1 /mnt/boot
 ```
 
-Verificamos que se hayan creado correctamente los directorios
+We verify that the directories have been created correctly
 
 ***root@archiso ~ #***
 ```bash
 ls /mnt/
 ```
 
-> /mnt - sistemas de archivos montados manualmente en el disco duro.
+> /mnt - manually mounted file systems on the hard drive.
 
-> / - diagonal invertida significa root
+> / - backslash means root
 
-### **Generador de Mirrorlist dentro LiveCD**
+### **Mirrorlist generator inside LiveCD**
 
-Ahora montadas las particiones instalamos los programas base y lo más esencial posible.
+Now that the partitions are mounted, we install the base programs and the most essential as possible.
 
-Pero hay muchos casos que a los pacstrap les resulta una descarga muy lenta y eso se debe al no tener los mirrors más rápidos de descarga.
+But there are many cases that pacstrap finds it a very slow download and that is due to not having the fastest download mirrors.
 
-Para tener los Mirrors más rápidos para tener mejores descargas usaremos ***reflector***
+To have the fastest Mirrors to have better downloads we will use ***reflector***
 
 ***root@archiso ~ #***
 ```bash
 pacman -Sy reflector python --noconfirm
 ```
 
-Para ejecutar reflector y tener los mejores Mirrors Servers es:
+To run reflector and have the best Mirrors Servers is:
 
 ***root@archiso ~ #***
 ```bash
 reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-Para revisar la lista de Mirrors Servers y confirmar que lo hizo reflector el comando es:
+To review the list of Mirrors Servers and confirm that Reflector did it, the command is:
 
-Confirmamos comparando donde dice ***by Reflector***
+We confirm by comparing where it says ***by Reflector***
 
 ***root@archiso ~ #***
 ```bash
 cat /etc/pacman.d/mirrorlist
 ```
 
-[https://lh4.googleusercontent.com/NcDrgfFuzjZS-U53mLdKXr2nm77EsXMsoyVsqVzdpDvz988AQqjpY551s490IXSk8ETMmUHlVGYf3_ma2lUYcV-JgiWL3dt5cpj3Pq7KCfd09wPVxYb71hoCcpqNqKGC1LKpB9YpdS_HobwPF6A](https://lh4.googleusercontent.com/NcDrgfFuzjZS-U53mLdKXr2nm77EsXMsoyVsqVzdpDvz988AQqjpY551s490IXSk8ETMmUHlVGYf3_ma2lUYcV-JgiWL3dt5cpj3Pq7KCfd09wPVxYb71hoCcpqNqKGC1LKpB9YpdS_HobwPF6A)
+## **System Installation**
 
-## **Instalación del sistema**
-
-**Especificación de los paquetes necesarios.**
+**Specification of the necessary packages.**
 
 ***root@archiso ~ #***
 ```bash
 pacstrap /mnt base base-devel nano
 ```
 
-/* **Instalación base - base-devel**: programas, configuraciones, directorios, etc...
+/* **Base installation - base-devel**: programs, settings, directories, etc...
 
-/* **Editor de texto en terminal**: Nano
+/* **Text editor in terminal**: Nano
 
 ***root@archiso ~ #***
 ```bash
 pacstrap /mnt linux-firmware linux linux-headers mkinitcpio
 ```
 
-/* **linux-firmware**: Binarios de controladores generalmente propietarios, Las tarjetas gráficas modernas de AMD, NVIDIA y Intel Wi-Fi requieren la carga de blobs para que el hardware funcione correctamente.
+/* **linux-firmware**: Generally proprietary driver binaries, Modern graphics cards from AMD, NVIDIA and Intel Wi-Fi require blob loading for the hardware to function properly.
 
-/* **linux**: kernel en su versión estable
+/* **linux**: kernel in its stable version
 
-/* **linux-headers**: cabeceras del kernel en su versión estable
+/* **linux-headers**: kernel headers in its stable version
 
-/* **mkinitcpio**: Utilidad de creación de imágenes initramfs para el kernel
+/* **mkinitcpio**: Initramfs image creation utility for the kernel
 
-Después de la instalación del Kernel, Automático se crearán las IMG de Linux en la carpeta de ***/boot/*** gracias a ***mkinitcpio***
+After Kernel installation, Automatic Linux IMGs will be created in ***/boot/*** folder thanks to ***mkinitcpio***
 
-**Especificación de los paquetes necesarios.**
+**Specification of the necessary packages.**
 
-Los siguientes paquetes nos permiten gestionar las conexiones a Internet
+The following packages allow us to manage Internet connections
 
 ***root@archiso ~ #***
 ```bash
 pacstrap /mnt dhcpcd networkmanager net-tools wpa_supplicant dialog netctl
 ```
-En el caso que uses una laptop, para el Bluetooth: (opcional)
+In case you use a laptop, for Bluetooth: (optional)
 
 ***root@archiso ~ #***
 ```bash
 pacstrap /mnt bluez bluez-utils pulseaudio-bluetooth
 ```
 
-Si sale un error al usar pacstrap del tipo "error: could not open file /mnt/var/lib/pacman/sync/core.db: Unrecognized archive format" tenemos que eliminar el directorio "...sync/" de forma recursiva para solucionarlo.
+If you get an error when using pacstrap of the type "error: could not open file /mnt/var/lib/pacman/sync/core.db: Unrecognized archive format" we have to remove the "...sync/" directory recursively in order to solve it.
 
 ***root@archiso ~ #***
 ```bash
 rm -R /mnt/var/lib/pacman/sync/
 ```
 
-### **El archivo fstab**
+### **The fstab file**
 
-Es usado para definir cómo las particiones,
+It is used to define how the partitions,
 
-Estas definiciones se montaron de forma dinámica en el arranque
-
-[https://lh6.googleusercontent.com/fxdMgFWWurNbZeRE1JrAWDQ_Qyd1QwDs9I8EQOOjAGZryHNvmnqyg06kILg3_JOta97jmaeOzqWVfCE-pYzvS0fOf8eUhgQkmNvoDSkGPeSDnLERA0sPeBZWVwnd2DQhLzIMGZ40vlTN-oimqeM](https://lh6.googleusercontent.com/fxdMgFWWurNbZeRE1JrAWDQ_Qyd1QwDs9I8EQOOjAGZryHNvmnqyg06kILg3_JOta97jmaeOzqWVfCE-pYzvS0fOf8eUhgQkmNvoDSkGPeSDnLERA0sPeBZWVwnd2DQhLzIMGZ40vlTN-oimqeM)
+These definitions were dynamically mounted on boot
 
 ***root@archiso ~ #***
 ```bash
 genfstab -p /mnt >> /mnt/etc/fstab
 ```
 
-**/*Luego de generar el archivo fstab para las etiquetas de nuestras particiones**
+**/*After generating the fstab file for our partition labels**
 
-**/*Revisamos con:**
+**/*We check with:**
 
 ***root@archiso ~ #***
 ```bash
 cat /mnt/etc/fstab
 ```
 
-[https://lh3.googleusercontent.com/29y8nSdYfJjhy8hP-_0b6brwLKsaXKCD-0sdM7BX3lN47BgKRHFYlnJ_9qaoHRcoEwE08ybKgWbkDmK_Q5bGZtgnVH3DtNZpOtIyPozf8Ulb4s5qzBAYRDj9tQ-MovwEC8SoDQxShZL97dqi3vA](https://lh3.googleusercontent.com/29y8nSdYfJjhy8hP-_0b6brwLKsaXKCD-0sdM7BX3lN47BgKRHFYlnJ_9qaoHRcoEwE08ybKgWbkDmK_Q5bGZtgnVH3DtNZpOtIyPozf8Ulb4s5qzBAYRDj9tQ-MovwEC8SoDQxShZL97dqi3vA)
-
 ## **Chroot**
 
-Entramos a la raíz del nuevo sistema como usuario root.
+We enter the root of the new system as the root user.
 
 ***root@archiso ~ #***
 ```bash
 arch-chroot /mnt
 ```
 
-/* Entramos a raíz como root
+/* Enter root as root
 
-/* Vemos cambio el color y cambio el **~** del livecd por **/** que significa root.
+/* We see change the color and change the **~** of the livecd by **/** which means root.
 
-/* Dentro de nuestro sistema vamos a configurar idioma, teclado, hora y usuarios.
+/* Within our system we are going to configure language, keyboard, time and users.
 
 ***[root@archiso /]#***
 ```bash
 nano /etc/locale.gen
 ```
 
-/*Quitamos el ***#*** que es comentario en nuestro idioma >> ***es_*** y nuestro país
+/* We remove the ***#*** which is a comment in our language >> ***in_*** and our country
 
-/*En mi caso es Venezuela pero siempre coloco ingles en > US
+/*Must end in ***in_[country].UTF-8 UTF-8***
 
-/*Debe terminar en ***es_[país].UTF-8 UTF-8***
+Ctrl + W to search for words in nano
 
-[https://lh3.googleusercontent.com/heMu03yoZTIU4LUUaqh9Gj8FLLqlMEzNGZMbxU2UgnA8phEPEzvZVYnw_JFJm3Qzg5XRL4ql0IkU1wajMakENxfFEtUy6ds_JFR6vld0Ig3rVnfu8cXY_H3McI80Wsb4TEgOb8Eyk_-Lb4bs6nY](https://lh3.googleusercontent.com/heMu03yoZTIU4LUUaqh9Gj8FLLqlMEzNGZMbxU2UgnA8phEPEzvZVYnw_JFJm3Qzg5XRL4ql0IkU1wajMakENxfFEtUy6ds_JFR6vld0Ig3rVnfu8cXY_H3McI80Wsb4TEgOb8Eyk_-Lb4bs6nY)
+Ctrl + O to save to nano
 
-Ctrl + W para buscar palabras en nano
+Ctrl + X to close in nano
 
-Ctrl + O para guardar en nano
-
-Ctrl + X para cerrar en nano
-
-Generamos el idioma seleccionado
+We generate the selected language
 
 ***[root@archiso /]#***
 ```bash
 locale-gen
 ```
 
-establezca la variable LANG en locale.conf
+set the LANG variable in locale.conf
 
 
 ***[root@archiso /]#***
@@ -416,14 +407,12 @@ establezca la variable LANG en locale.conf
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 ```
 
-Exporte la variable LANG con el local especificado
+Export the LANG variable with the locale specified
 
 ***[root@archiso /]#***
 ```bash
-export LANG=es_PE.UTF-8
+export LANG=en_US.UTF-8
 ```
-
-[https://lh6.googleusercontent.com/7B7MFnqVHZL2pwWxfQKg2he5t0oDM6VE7Qga9bipKExT-QDNMD3ZQq101FxLdp-Dm_U-kJG4gwmfLWFtCVg58_5Z4I-7VSAaxKGX7SkVwr-Fc4Jgc4fBfEiXCz3ZRHZjBr02NAHIZiZSEgk2GVE](https://lh6.googleusercontent.com/7B7MFnqVHZL2pwWxfQKg2he5t0oDM6VE7Qga9bipKExT-QDNMD3ZQq101FxLdp-Dm_U-kJG4gwmfLWFtCVg58_5Z4I-7VSAaxKGX7SkVwr-Fc4Jgc4fBfEiXCz3ZRHZjBr02NAHIZiZSEgk2GVE)
 
 ***[root@archiso /]#***
 ```bash
@@ -435,167 +424,171 @@ ls /usr/share/zoneinfo/America/
 ls /usr/share/zoneinfo/Europe/
 ```
 
-/* **ln -sf** - Genera un enlace simbólico es un acceso al fichero
-
-/* Mi caso es de Venezuela y la ciudad es Maracaibo (America/Caracas).
+/* **ln -sf** - Generates a symbolic link is an access to the file
 
 ***[root@archiso /]#***
 ```bash
-ln -sf /usr/share/zoneinfo/America/Caracas /etc/localtime
+ln -sf /usr/share/zoneinfo/America/<"name of your area"> /etc/localtime
 ```
 
-[https://lh4.googleusercontent.com/GuCqyNB03epL7jVgcgEdScwdpIWmylkbFdFVfN6tJBDX6aStf4zh9MUAufrWM8JvFfG0hW5phqnD5_Ymjl98y5_XlrwZ-YwJfkv-awulehrCl1T6L8hdarbAKeRRewxsZFew8LqBZkHsUatgQKw](https://lh4.googleusercontent.com/GuCqyNB03epL7jVgcgEdScwdpIWmylkbFdFVfN6tJBDX6aStf4zh9MUAufrWM8JvFfG0hW5phqnD5_Ymjl98y5_XlrwZ-YwJfkv-awulehrCl1T6L8hdarbAKeRRewxsZFew8LqBZkHsUatgQKw)
+## **User Configuration**
 
-## **Configuración del Usuario**
+The system is configured to read the computer's internal clock, then the system clock
 
-El sistema está configurado para leer el reloj interno del equipo, después el reloj del sistema
+Set the RTC from the system time.
 
-Estable el RTC a partir de la hora del sistema.
-
+**[root@archiso /]#**
 ```bash
 hwclock -w
 ```
 
-Defina la distribución de teclado en vconsole.conf
+Define the keyboard layout in vconsole.conf
 
-para que permanezca en cada reinicio solo aplica para la terminal virtual.
+so that it remains in each reboot only applies to the virtual terminal.
 
-para que permanezca activo en tu Escritorio (DE) es otro comando.
+to keep it active on your Desktop (DE) is another command.
 
+**[root@archiso /]#**
 ```bash
-echo KEYMAP=es > /etc/vconsole.conf
+echo KEYMAP=us > /etc/vconsole.conf
 ```
 
-Nombre del equipo, esto no es **USUARIO!**
+Team name, this is not **USER!**
 
-En **nombre_de_pc** le cambian por uno a su gusto, **más adelante crearán un usuario**
+In **name_of_pc** they change it for one to your liking, **later on they will create a user**
 
+**[root@archiso /]#**
 ```bash
-echo nombre_de_pc > /etc/hostname
+echo <Pc_name> > /etc/hostname
 ```
 
-[https://lh5.googleusercontent.com/IOPCiIxwzUeEfMukqmooLEWeyoErOOTQwEJJcB0GlzW9qWox0s9tDN2HaqBgDLWX2lV6GCFabJRDS5k4qOgvteAK1nJ8AHO7j3W6Z7VU2KRC5zxh6Rf_U_3YRZN-gRiBr1r0ZDWVPosSYwWh7n8](https://lh5.googleusercontent.com/IOPCiIxwzUeEfMukqmooLEWeyoErOOTQwEJJcB0GlzW9qWox0s9tDN2HaqBgDLWX2lV6GCFabJRDS5k4qOgvteAK1nJ8AHO7j3W6Z7VU2KRC5zxh6Rf_U_3YRZN-gRiBr1r0ZDWVPosSYwWh7n8)
+We modify the file **Hosts**
 
-Modificamos el archivo **Hosts**
-
-Es importante saber que nombre pusieron en **Hostname** porque aquí sera usado
+It is important to know what name they put in **Hostname** because it will be used here
 
 ```bash
 nano /etc/hosts
 127.0.0.1 [tab] localhost
 ::1 [tab] localhost
-127.0.1.1 [tab] nombre_de_pc.localdomain(Espacio)nombre_de_pc
+127.0.1.1 [tab] <pc_name>.localdomain(space)<pc_name>
 ```
 
-[https://lh3.googleusercontent.com/f2mmftUqEjKKQqTpcyN16QU90771s1_K9a85fcQ7gui98qQAOW3baVsv_UquD3zk3kXAunjBQZPBPFkNddTshMVkGxnT4_lAnR38uWltHMdAD7ZoVqSLFXXWCPRPgvBtYeoTvCEHy-mzKbmT-Go](https://lh3.googleusercontent.com/f2mmftUqEjKKQqTpcyN16QU90771s1_K9a85fcQ7gui98qQAOW3baVsv_UquD3zk3kXAunjBQZPBPFkNddTshMVkGxnT4_lAnR38uWltHMdAD7ZoVqSLFXXWCPRPgvBtYeoTvCEHy-mzKbmT-Go)
+Ctrl + O to save to nano
 
-Ctrl + O para guardar en nano
+Ctrl + X to close in nano
 
-Ctrl + X para cerrar en nano
+### **USERS**
 
-### **USUARIOS**
+Password for root:
 
-Contraseña para root:
-
+**[root@archiso /]#**
 ```bash
 passwd root
 ```
 
-Creamos nuestro usuario, para entrar a nuestro sistema.
+We create our user, to enter our system.
 
+**[root@archiso /]#**
 ```bash
-useradd -m -g users -G wheel -s /bin/bash nombre_de_usuario
+useradd -m -g users -G wheel -s /bin/bash <Username>
 ```
 
+**[root@archiso /]#**
 ```bash
-passwd nombre_de_usuario
+passwd <Username>
 ```
 
-En nombre_de_usuario, lo cambiamos a nuestro gusto.
+In username, we change it to our liking.
 
-[https://lh6.googleusercontent.com/opadNTnhv5xZTkvzztxTjhwD0qlMAZIWbHWRzoR27U2KkN3pobvAEZxxJETOEPjAtsirfP23MlPjY5woD0K0_aSvSNjudoyiUR7I8B_TpoOK2B-OFv7L78sQ04dZQqbAqvpEeAGCk7xwQAtT9hc](https://lh6.googleusercontent.com/opadNTnhv5xZTkvzztxTjhwD0qlMAZIWbHWRzoR27U2KkN3pobvAEZxxJETOEPjAtsirfP23MlPjY5woD0K0_aSvSNjudoyiUR7I8B_TpoOK2B-OFv7L78sQ04dZQqbAqvpEeAGCk7xwQAtT9hc)
+Now with our user if we want to do something as root we usually use SUDO
 
-Ahora con nuestro usuario si queremos hacer algo como root por lo general usamos SUDO
+Sudo will take effect if our user is in the **Sudoers** list.
 
-Sudo tendrá efecto si nuestro usuario está en la lista de **Sudoers**.
-
+**[root@archiso /]#**
 ```bash
 nano /etc/sudoers
 ```
 
-Buscamos **root ALL=(ALL) ALL** y abajo ponemos nuestro usuario
+We look for **root ALL=(ALL) ALL** and below we put our user
 
-Para que tenga permisos y mismos privilegios al ejecutar sudo.
+So that you have same permissions and privileges when running sudo.
 
+**[root@archiso /]#**
 ```bash
-nombre_de_usuario ALL=(ALL) ALL
+<username> ALL=(ALL) ALL
 ```
 
-[https://lh3.googleusercontent.com/tJgznZ1kUZ_qzlKQiTZqV6VgrqCkdFv_2GXz-7AzLx8rZSDwxca46GSaY3tkGTZTtNgE4ozeNfE75Qjt_9LsJ5X6AOxL2ZRDARLjy-MdDiEFzwl2rFko9PtMDs9P2QCFZ6gtIUrN9hNTTxiCcIQ](https://lh3.googleusercontent.com/tJgznZ1kUZ_qzlKQiTZqV6VgrqCkdFv_2GXz-7AzLx8rZSDwxca46GSaY3tkGTZTtNgE4ozeNfE75Qjt_9LsJ5X6AOxL2ZRDARLjy-MdDiEFzwl2rFko9PtMDs9P2QCFZ6gtIUrN9hNTTxiCcIQ)
+Ctrl + W to search for words in nano
 
-Ctrl + W para buscar palabras en nano
+Ctrl + O to save to nano
 
-Ctrl + O para guardar en nano
+Ctrl + X to close in nano
 
-Ctrl + X para cerrar en nano
-
-### **Activando Servicios**
+### **Activating Services**
 
 Dynamic Host Configuration Protocol (DHCP)
 
-El servidor proporciona a los clientes una dirección IP dinámica,
+The server provides clients with a dynamic IP address,
 
-La máscara de subred, Gracias a "systemd" podemos activar ese servicio
+The subnet mask, Thanks to "systemd" we can activate that service
 
-Detección y configuración automática para conectarse a la red, respetar la mayúscula
+Automatic detection and configuration to connect to the network, respect capitalization
 
+**[root@archiso /]#**
 ```bash
 systemctl enable dhcpcd NetworkManager
 ```
 
-Si instalaron paquetes de Bluetooth activen el servicio:
+If you installed Bluetooth packages activate the service:
 
+**[root@archiso /]#**
 ```bash
 systemctl enable bluetooth
 ```
 
-### **Mirrorlist en root**
+### **Mirrorlist in root**
 
-**Reflector** es un script que es capaz de generar una lista y usa los repositorios más rápidos
+**Reflector** is a script that is capable of generating a list and uses the fastest repositories
 
-Ordenarlos en base a su velocidad, y sobrescribir el archivo /etc/pacman.d/mirrorlist
+Sort them based on their speed, and overwrite the **/etc/pacman.d/mirrorlist file**
 
-[root@archiso /]# pacman -Sy reflector
+**[root@archiso /]#**
 
-[root@archiso /]# reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
+```bash
+ pacman -Sy reflector
+```
 
-### **GRUB - Gestor de Arranque**
+**[root@archiso /]#**
 
-Instalamos GRUB y os prober
+``` bash
+ reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
+```
 
-**Os-prober** detecta más sistemas operativos si los tuviéramos, que usará grub para su menú (opcional)
+### **GRUB - Bootloader**
+
+We install GRUB and test you
+
+**Os-prober** detects more operating systems if we had them, which will use grub for its menu (optional)
 
 ```bash
 pacman -S grub os-prober
 ```
 
-Aquí solo importa instalar grub en el disco donde esta ArchLinux instalado en mi caso es **/dev/sda**
+Here it only matters to install grub on the disk where ArchLinux is installed, in my case it is **/dev/sda**
 
 ```bash
 grub-install /dev/sda
 ```
 
-[https://lh3.googleusercontent.com/q1CRgYVDY7Cs_u4AxqyhgHFGWfDhmQdbMLHLpCJQyjlxKXxQ_2GjY62QNsyY8VLImAQEagOj0POFVGRrfuxY3p6Hpb8o5rKrLALtD1mTf20NcwK-PorbY0RdZfyRgIcVO746cS976sOKrYOX1zk](https://lh3.googleusercontent.com/q1CRgYVDY7Cs_u4AxqyhgHFGWfDhmQdbMLHLpCJQyjlxKXxQ_2GjY62QNsyY8VLImAQEagOj0POFVGRrfuxY3p6Hpb8o5rKrLALtD1mTf20NcwK-PorbY0RdZfyRgIcVO746cS976sOKrYOX1zk)
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
 
 ```bash
-[root@archiso /]# grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-```
 mkinitcpio -p
 ```
 
-### **Saliendo de LiveCD**
+### **Leaving LiveCD**
 
 ```bash
 exit
@@ -605,68 +598,65 @@ exit
 exit
 ```
 
-[https://lh4.googleusercontent.com/6z88kImm2Xu13wiAZ2eDZBgZ4lOXqG7q3iiczzrPFfps11-Qwl2HgCxNM42lhRIeZpUB5qX6kSPIjByl_ZknA9F3modQuDHt2q20fDPunnMGoFzgMloCG0Lj8r7jYiYppp3pg3hcH9l14m1KIYU](https://lh4.googleusercontent.com/6z88kImm2Xu13wiAZ2eDZBgZ4lOXqG7q3iiczzrPFfps11-Qwl2HgCxNM42lhRIeZpUB5qX6kSPIjByl_ZknA9F3modQuDHt2q20fDPunnMGoFzgMloCG0Lj8r7jYiYppp3pg3hcH9l14m1KIYU)
-
-Salimos del sistema, desmontamos todas las particiones...
+We exit the system, unmount all partitions...
 
 ```bash
 umount -R /mnt
 ```
 
-Y finalmente reiniciamos, **retiramos la USB o el CD cuando este apagada la pc**
+And finally we restart, ** we remove the USB or the CD when the pc is turned off **
 
-Entramos como **ROOT**
 
 ```bash
 reboot
 ```
 
-### **Después de reiniciar**
-
-[https://lh6.googleusercontent.com/DKCMV60wuKMTDWVW7SPnnwbGBLFRKFhx_rj4nTcoG59aLeAds7AucBCsTqZILh_AXivnN4RrQWTmxFmtvSzsvoFDV_tVsVIlZPJUU_R6CUhW_ernPl-jQthwAfiSLlIP2KFTwJRaF2q72fFNgHw](https://lh6.googleusercontent.com/DKCMV60wuKMTDWVW7SPnnwbGBLFRKFhx_rj4nTcoG59aLeAds7AucBCsTqZILh_AXivnN4RrQWTmxFmtvSzsvoFDV_tVsVIlZPJUU_R6CUhW_ernPl-jQthwAfiSLlIP2KFTwJRaF2q72fFNgHw)
-
-[https://lh5.googleusercontent.com/DBs6-A0tJJSxflZTUMI-Niy9sRT6dkoHnvLDTVT37zlyH-m2a9h_17qjVJmm0hLBUTU90vHlSnJbscvAflEYz1gM3IFSjVrlEivHfUGkdndDS-S4IhvymuOXyVKIf6BkaOrruuU2GsvOfs3-oVc](https://lh5.googleusercontent.com/DBs6-A0tJJSxflZTUMI-Niy9sRT6dkoHnvLDTVT37zlyH-m2a9h_17qjVJmm0hLBUTU90vHlSnJbscvAflEYz1gM3IFSjVrlEivHfUGkdndDS-S4IhvymuOXyVKIf6BkaOrruuU2GsvOfs3-oVc)
-
-### Activamos nuestra tarjeta de red con el siguiente comando
+### We verify which is our network card with the following command
 
 ```bash
 ip link
 ```
 
-[https://lh4.googleusercontent.com/bf-EGic7nONAM1TRwrZ0Vnar5mDzhEYSIDqSqM2VoOuuaCE4aq7EgeJ74309YWv6s0SJ1blEAIKvjtlkLEBLlHhjgGtr9CpKyCJnwTt1uUC57GbrXJNXBgfrLe3CbPvUH9QaVg4So4516G4XD8o](https://lh4.googleusercontent.com/bf-EGic7nONAM1TRwrZ0Vnar5mDzhEYSIDqSqM2VoOuuaCE4aq7EgeJ74309YWv6s0SJ1blEAIKvjtlkLEBLlHhjgGtr9CpKyCJnwTt1uUC57GbrXJNXBgfrLe3CbPvUH9QaVg4So4516G4XD8o)
+**we activate our network card with the following command**
 
-**> Para conectarnos a Wifi:**
+``` bash
+sudo ip link set <"network card name"> up
+```
+
+**>> to see the available networks**
 
 ```bash
 nmcli dev wifi list
 ```
 
-Si la red tiene espacios solo ponemos comilla simple o doble comillas en el bssid:
+If the network has spaces we just put single or double quotes in the bssid:
 
-[root@nombre_de_pc ~]# nmcli dev wifi connect 'NOMBRE DE RED' password CLAVE
+``` bash
+sudo nmcli dev wifi connect <network name> password <password>
+```
 
-Verificamos la conexión:
+We check the connection:
 
 ```bash 
 nmcli dev status
 ```
-Estamos listos para iniciar hacer descargas en nuestro sistema
+We are ready to start downloading in our system
 
-**Pero siempre antes de hacer alguna instalación siempre actualizamos el sistema con:**
-
-```bash
-pacman -Syu
-```
-
-### **Personalizando PACMAN**
-
-El archivo general de configuración de pacman se encuentra en:
+**But always before doing any installation we always update the system with:**
 
 ```bash
-nano /etc/pacman.conf
+sudo pacman -Syu
 ```
 
-Nos ubicamos en la parte que dice: **# Misc options**
+### **Customizing PACMAN**
+
+The general pacman configuration file is located at:
+
+```bash
+sudo nano /etc/pacman.conf
+```
+
+We are located in the part that says: **# Misc options**
 
  ```bash
 # Misc options
@@ -679,200 +669,158 @@ ParallelDownloads = 5
 ILoveCandy
 ```
 
-Y agregamos **ILoveCandy** (es una i mayús y luego una L)
+And we add **ILoveCandy** (it's a capital i and then an L)
 
-[https://lh6.googleusercontent.com/xH6nNlsoSeATA6P_ep4cXOFnAx2yoPniy6EJ7sFuomogONgWpYWN5uyD8mgi2s26Bgw0trCO0mZUWTCcKvSXvTr6oRRnQDftQU1jlr4XVwq7WEddVgo5o5PgEPLbbLkgEMklyLkeqVhsERG44iE](https://lh6.googleusercontent.com/xH6nNlsoSeATA6P_ep4cXOFnAx2yoPniy6EJ7sFuomogONgWpYWN5uyD8mgi2s26Bgw0trCO0mZUWTCcKvSXvTr6oRRnQDftQU1jlr4XVwq7WEddVgo5o5PgEPLbbLkgEMklyLkeqVhsERG44iE)
+Then we remove the **#** comment on the **MultiLib** repository
 
-Luego quitamos el **#** comentario en el repositorio de **MultiLib**
-
-Esto nos brinda varias librerías de 32bits, en juegos o programas viejos que necesitan esas librerias
+This gives us several 32bit libraries, in old games or programs that need those libraries.
 
 ```bash
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
 
-[https://lh6.googleusercontent.com/nO5fnZEuH1s3ZqLiPG_2DqrpmFiRBAktmckheBfksJQzr5AMXciKAt0jN5NW_8-S9Kslri314qRkcgxpFN5HM-D5tqSvKcvJTqpPPK41VYDz3PItNFnOnBAQ0Bxxicj1BOR3bnPL5Yx-Ou7mWlk](https://lh6.googleusercontent.com/nO5fnZEuH1s3ZqLiPG_2DqrpmFiRBAktmckheBfksJQzr5AMXciKAt0jN5NW_8-S9Kslri314qRkcgxpFN5HM-D5tqSvKcvJTqpPPK41VYDz3PItNFnOnBAQ0Bxxicj1BOR3bnPL5Yx-Ou7mWlk)
-
-Actualizamos el sistema para ver el color y animación de pacman:
+We update the system to see the color and animation of pacman:
 
 ```bash
-pacman -Syu
+sudo pacman -Syu
 ```
 
-[https://lh4.googleusercontent.com/_ChoEG5nDFQRr6bWPRvs9xiG6g0xjSZ0eIgxKPVHmQlw5YpmIapfx5fKfp-60tYVGfGtFJTUSXefKbd1JV-8JZfaCT158x3DTCdT1C6eNjccPyCXxD50jeVPtIP1xcPydXoSmEPpqrbjRl3dRn0](https://lh4.googleusercontent.com/_ChoEG5nDFQRr6bWPRvs9xiG6g0xjSZ0eIgxKPVHmQlw5YpmIapfx5fKfp-60tYVGfGtFJTUSXefKbd1JV-8JZfaCT158x3DTCdT1C6eNjccPyCXxD50jeVPtIP1xcPydXoSmEPpqrbjRl3dRn0)
-
-### **Programas Extras**
+### **Extra Programs**
 
 ```bash
-pacman -Sy git wget
+sudo pacman -Sy git wget
 ```
 
-/* Descargas con git
+/* Downloads with git
 
-/* Descargar con wget
+/* Download with wget
 
 ```bash
-pacman -Sy neofetch
+sudo pacman -Sy neofetch
 ```
 
 ```bash
-pacman -Sy intel-ucode
+sudo pacman -Sy intel-ucode
 ```
 
-Los fabricantes de procesadores lanzan actualizaciones de estabilidad y seguridad para el microcódigo de procesador **(código cerrado)**
+Processor manufacturers release stability and security updates for processor microcode **(closed source)**
 
-No tenemos los directorios comunes:
+We don't have the common directories:
 
-Escritorio
+Desk
 
-Documentos
+documents
 
-Descargas
+downloads
 
-Música
+Music
 
-Imágenes
+Images
 
 Public
 
-Plantillas
+Templates
 
 Videos
 
 ```bash
-pacman -S xdg-user-dirs
+sudo pacman -S xdg-user-dirs
 ```
 
-[https://lh6.googleusercontent.com/Pf0qB31MZZ-rYFU0rhWJwPbHyaN9qUmGFeBLPryjvVwHuydld3ThSz71SMk05WhjzpZDpzW1ghA44xLqw0OqEG8qtqhIk5sb_zGHilfNGwEaYx_01C8t-fdcf9y7pyLiyEGdgOKUl6ITHcUKXz0](https://lh6.googleusercontent.com/Pf0qB31MZZ-rYFU0rhWJwPbHyaN9qUmGFeBLPryjvVwHuydld3ThSz71SMk05WhjzpZDpzW1ghA44xLqw0OqEG8qtqhIk5sb_zGHilfNGwEaYx_01C8t-fdcf9y7pyLiyEGdgOKUl6ITHcUKXz0)
+The way it works is that **xdg-user-dirs-update** is executed
 
-La forma en que funciona es que **xdg-user-dirs-update** se ejecuta
+Then create localized versions of these directories
 
-Luego crea versiones localizadas de estos directorios
-
-En el directorio de inicio de los usuarios con iconos especiales
+In the users home directory with special icons
 
 ```bash
 xdg-user-dirs-update
 ```
 
-[https://lh3.googleusercontent.com/ceKkxsm2OedgYlJaTCRaBcGs7IbwURQ5RMKD237Hl976GPgqb06YQ5_pFDuTn_atFovu1IBXoTIH2CqgCO0vX4uZL42ptIvlBYhf7mM0xZgx07uo7shlb09h_5H0ftN32iPUHMIttIZWB6ASrvQ](https://lh3.googleusercontent.com/ceKkxsm2OedgYlJaTCRaBcGs7IbwURQ5RMKD237Hl976GPgqb06YQ5_pFDuTn_atFovu1IBXoTIH2CqgCO0vX4uZL42ptIvlBYhf7mM0xZgx07uo7shlb09h_5H0ftN32iPUHMIttIZWB6ASrvQ)
-
 ### **X.Org Server**
 
-X.Org Server proporciona las herramientas estándar para proveer de interfaces gráficas
+X.Org Server provides the standard tools to provide graphical interfaces
 
-X.Org es necesario tanto para Desktop environment (DE) y Window manager (WM)
+X.Org is required for both Desktop environment (DE) and Window manager (WM)
 
 ```bash
-pacman -Sy xorg xorg-apps xorg-xinit xorg-twm xterm xorg-xclock
+sudo pacman -Sy xorg xorg-apps xorg-xinit xorg-twm xterm xorg-xclock
 ```
 
-Para ejecutar X.org
+To execute X.org
 
 ```bash
 startx
 ```
 
-### **Driver de Vídeo**
+### **Video driver**
 
-Con el siguiente comando nos dará información de nuestra tarjeta gráfica
+With the following command it will give us information about our graphics card
 
 ```bash
 lspci | grep VGA
 ```
 
-**Para tarjetas de Intel**
+**for Intel cards**
 
 ```bash
-pacman -S xf86-video-intel
+sudo pacman -S xf86-video-intel
 ```
 
 **Audio**
 
 ```bash
-pacman -S pulseaudio pavucontrol
+sudo pacman -S pulseaudio pavucontrol
 ```
 
-### **Fuentes de Letra**
+### **letter fonts**
 
 ```bash
-[root@nombre_de_pc ~]# pacman -S gnu-free-fonts ttf-hack ttf-inconsolata
+sudo pacman -S gnu-free-fonts ttf-hack ttf-inconsolata
 ```
 
-### **Instalacion y configuracion  de paru**
+### **Installation and configuration of paru**
 
-Instale primero git y base-devel Asociación de paquetes que contiene   herramientas para crear (clasificar y vincular) paquetes a partir del código fuente
+First install git and base-devel Package Association which contains tools for creating (classifying and linking) packages from source code
 
 ```bash
 sudo pacman -S --needed base-devel
 ```
 
-Git Clone Paru Repository con el comando:
+clone paru repository:
 
 ```bash
 git clone [https://aur.archlinux.org/paru.git](https://aur.archlinux.org/paru.git)
 ```
 
-Cambie al paru Directorio:
+Change to paru Directory:
 
 ```bash
 cd paru
 ```
 
-Finalmente, cree e instale el asistente Paru AUR en Arch Linux usando el venidero comando:
+Finally, create and install the Paru AUR helper on Arch Linux using the command:
 
 ```bash
 makepkg -si
 ```
 
-**Configuración de paru**
+**paru configuration**
 
-### Habilitar color en Paru
+### Enable color in Paru
 
 ```bash
 sudo nano /etc/pacman.conf
 ```
 
-Una vez que abra el archivo de configuración de pacman, desconecte el "Color" para habilitar esta función.
-
-[https://lh3.googleusercontent.com/ekwMkUDuHnEI2cGOhsvKTWxJjtgD_WADGN4TxSHUhqKC4AaDZs9e_zB1U0m8xN_uopb9UqKWKIQDd5lWCeUJTSqXxWG3Wxo570cDmHlvtSoEzwsqbJVXGPPezy6YXIVQPfaHG_qPkTFVNpm1Yg](https://lh3.googleusercontent.com/ekwMkUDuHnEI2cGOhsvKTWxJjtgD_WADGN4TxSHUhqKC4AaDZs9e_zB1U0m8xN_uopb9UqKWKIQDd5lWCeUJTSqXxWG3Wxo570cDmHlvtSoEzwsqbJVXGPPezy6YXIVQPfaHG_qPkTFVNpm1Yg)
-
-### **Voltear orden de búsqueda**
-
-```bash
-sudo nano /etc/paru.conf
-```
-
-Descomente el término "BottomUp" y guarde el archivo.
-
-[https://lh6.googleusercontent.com/llXMZwwzyVdKLbIV0iL4S64bCKAxLLuov6Qe71fd0kLErn_k9oDCzO57O3tHXoKyRrEpbZ5xM8e7ikbbIIQrYIxoizyGYJVY3fdesFNi-Rc4HRY5v9DjXbN_ngFwg5Rw9bPWxI5olIv2vRleGA](https://lh6.googleusercontent.com/llXMZwwzyVdKLbIV0iL4S64bCKAxLLuov6Qe71fd0kLErn_k9oDCzO57O3tHXoKyRrEpbZ5xM8e7ikbbIIQrYIxoizyGYJVY3fdesFNi-Rc4HRY5v9DjXbN_ngFwg5Rw9bPWxI5olIv2vRleGA)
-
-```bash
-sudo pacman -S vifm
-```
-
-```bash
-sudo nano /etc/paru.conf
-```
-
-Abra el archivo de configuración y elimine los comentarios como se muestra a continuación.
-
-[https://lh5.googleusercontent.com/0bHsX7vZN-6q6yd3dYn06rKND5JYhhdFJpO9ahCcf9KcaPjfLYsJ4rmGLwiu62J_hBXXGvSeg8DmldcCBKqTHssuHAWNQIGRP-THq4nVdtED-5vRZXw1t2NXnbvEhGIAswotV7ok0uf3GWBdsQ](https://lh5.googleusercontent.com/0bHsX7vZN-6q6yd3dYn06rKND5JYhhdFJpO9ahCcf9KcaPjfLYsJ4rmGLwiu62J_hBXXGvSeg8DmldcCBKqTHssuHAWNQIGRP-THq4nVdtED-5vRZXw1t2NXnbvEhGIAswotV7ok0uf3GWBdsQ)
-
-**Firmware complementario**
+**Supplemental Firmware**
 
 ```bash
 paru -S mkinitcpio-firmware
 ```
 
-**Paquete opcional para leer discos ntfs**
-
-```bash
-sudo pacman -S ntfs-3g
-```
-
-Utilidades
+Utilities
 
 ```bash
 sudo pacman -S exa bat
