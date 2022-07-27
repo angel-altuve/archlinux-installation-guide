@@ -181,11 +181,11 @@ Understood these concepts we execute **cfdisk**
 
 **In this example we will use:**
 
-sda1 > boot
+sda1 > Swap
 
-sda2 > root -home
+sda2 > root
 
-Sda3 > Swap
+Sda3 > Home
 
 /* At the end of the partitioning we give it in **[ Write ]** to write the changes
 
@@ -197,32 +197,32 @@ Ext4 is the most used and recommended.
 
 Ext4 is a Linux journaling file system.
 
-Boot Partition Format:
+Virtual memory partition or SWAP swap memory:
 
 ***root@archiso ~ #***
 ```bash
-mkfs.ext4 /dev/sda1
+mkswap /dev/sda1
 ```
 
-Format Root and Home Partition into one partition:
+Format Root Partition into one partition:
 
 ***root@archiso ~ #***
 ```bash
 mkfs.ext4 /dev/sda2
 ```
 
-Virtual memory partition or SWAP swap memory:
+Format Home Partition into one partition:
 
 ***root@archiso ~ #***
 ```bash
-mkswap /dev/sda3
+mkfs.ext4 /dev/sda3
 ```
 
 Activate SWAP partition:
 
 ***root@archiso ~ #***
 ```bash
-swapon /dev/sda3
+swapon /dev/sda1
 ```
 
 ### **Mount the partitions**
@@ -238,18 +238,18 @@ To mount the partitions we need to first create the logical mount paths.
 
 If you are going to install Archlinux as a single system in BIOS/Legacy mode, then we need to create ***/mnt*** and inside this directory include ***/boot*** or ***/home*** or * **/tmp*** or etc...
 
-In this case we only have ***/boot*** on /dev/sda1
+In this case we only have ***/home*** on /dev/sda3
 
 ***root@archiso ~ #***
 ```bash
-mkdir -p /mnt/boot/
+mkdir -p /mnt/home/
 ```
 
 Mounting the Boot partition ***/boot***
 
 ***root@archiso ~ #***
 ```bash
-mount /dev/sda1 /mnt/boot
+mount /dev/sda3 /mnt/home
 ```
 
 We verify that the directories have been created correctly
