@@ -126,8 +126,12 @@ Disk path can be:
 
 **>> Arch Linux includes the following partitioning tools:**
 
-![https://github.com/angel-altuve/archlinux-installation-guide/blob/main/img/partitions.png?raw=true](https://github.com/angel-altuve/archlinux-installation-guide/blob/main/img/partitions.png?raw=true)
-## 
+
+| Software               | MBR             |GPT
+| ---------------------- | --------------  |-------------
+| Dialog                 | fdisk, parted   |fdisk, cgdisk, 
+| pseudo-graphics        | cfdisk          | cgdisk, cfdisk
+| no-iterative           | sfdisk, parted  |sfdisk, sgdisk parted
 
 **>> Estructura de ficheros en Linux**
 
