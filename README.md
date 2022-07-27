@@ -63,8 +63,9 @@ The file **«/etc/wifi»** that has been generated can be viewed with the comman
 cat /etc/wifi
 ```
 
-Next we will have to connect to this Wi-Fi network using the configuration file that we have generated, for this we will have to execute the following command:***root@archiso ~ #***
+Next we will have to connect to this Wi-Fi network using the configuration file that we have generated, for this we will have to execute the following command:
 
+***root@archiso ~ #***
 ```bash
 wpa_supplicant -B -i wlan0 -D wext -c /etc/wifi
 ```
