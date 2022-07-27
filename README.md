@@ -230,23 +230,23 @@ swapon /dev/sda1
 
 Now for root in this example it is **/dev/sda2** which must be mounted first since everything starts with ***ROOT /***
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 mount /dev/sda2 /mnt/
 ```
 
 To mount the partitions we need to first create the logical mount paths.
 
-If you are going to install Archlinux as a single system in BIOS/Legacy mode, then we need to create ***/mnt*** and inside this directory include ***/boot*** or ***/home*** or * **/tmp*** or etc...
+If you are going to install Archlinux as a single system in BIOS/Legacy mode, then we need to create ***/mnt*** and inside this directory include **/boot** or **/home** or * **/tmp** or etc...
 
-In this case we only have ***/home*** on /dev/sda3
+In this case we only have **/home** on /dev/sda3
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 mkdir -p /mnt/home/
 ```
 
-Mounting the Boot partition ***/boot***
+Mounting the Boot partition **/boot**
 
 ***root@archiso ~ #***
 ```bash
@@ -255,7 +255,7 @@ mount /dev/sda3 /mnt/home
 
 We verify that the directories have been created correctly
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 ls /mnt/
 ```
@@ -270,25 +270,25 @@ Now that the partitions are mounted, we install the base programs and the most e
 
 But there are many cases that pacstrap finds it a very slow download and that is due to not having the fastest download mirrors.
 
-To have the fastest Mirrors to have better downloads we will use ***reflector***
+To have the fastest Mirrors to have better downloads we will use **reflector**
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 pacman -Sy reflector python --noconfirm
 ```
 
 To run reflector and have the best Mirrors Servers is:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
 To review the list of Mirrors Servers and confirm that Reflector did it, the command is:
 
-We confirm by comparing where it says ***by Reflector***
+We confirm by comparing where it says **by Reflector**
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 cat /etc/pacman.d/mirrorlist
 ```
@@ -297,7 +297,7 @@ cat /etc/pacman.d/mirrorlist
 
 **Specification of the necessary packages.**
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 pacstrap /mnt base base-devel nano
 ```
@@ -306,7 +306,7 @@ pacstrap /mnt base base-devel nano
 
 /* **Text editor in terminal**: Nano
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 pacstrap /mnt linux-firmware linux linux-headers mkinitcpio
 ```
@@ -319,26 +319,26 @@ pacstrap /mnt linux-firmware linux linux-headers mkinitcpio
 
 /* **mkinitcpio**: Initramfs image creation utility for the kernel
 
-After Kernel installation, Automatic Linux IMGs will be created in ***/boot/*** folder thanks to ***mkinitcpio***
+After Kernel installation, Automatic Linux IMGs will be created in **/boot/** folder thanks to **mkinitcpio**
 
 **Specification of the necessary packages.**
 
 The following packages allow us to manage Internet connections
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 pacstrap /mnt dhcpcd networkmanager net-tools wpa_supplicant dialog netctl
 ```
 In case you use a laptop, for Bluetooth: (optional)
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 pacstrap /mnt bluez bluez-utils pulseaudio-bluetooth
 ```
 
 If you get an error when using pacstrap of the type "error: could not open file /mnt/var/lib/pacman/sync/core.db: Unrecognized archive format" we have to remove the "...sync/" directory recursively in order to solve it.
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 rm -R /mnt/var/lib/pacman/sync/
 ```
@@ -349,7 +349,7 @@ It is used to define how the partitions,
 
 These definitions were dynamically mounted on boot
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 genfstab -p /mnt >> /mnt/etc/fstab
 ```
@@ -358,7 +358,7 @@ genfstab -p /mnt >> /mnt/etc/fstab
 
 **/*We check with:**
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 cat /mnt/etc/fstab
 ```
@@ -367,7 +367,7 @@ cat /mnt/etc/fstab
 
 We enter the root of the new system as the root user.
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 arch-chroot /mnt
 ```
@@ -378,14 +378,14 @@ arch-chroot /mnt
 
 /* Within our system we are going to configure language, keyboard, time and users.
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 nano /etc/locale.gen
 ```
 
-/* We remove the ***#*** which is a comment in our language >> ***en*** and our country
+/* We remove the **#** which is a comment in our language >> **en** and our country
 
-/*Must end in ***en_US.UTF-8***
+/*Must end in **en_US.UTF-8**
 
 Ctrl + W to search for words in nano
 
@@ -395,7 +395,7 @@ Ctrl + X to close in nano
 
 We generate the selected language
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 locale-gen
 ```
@@ -405,7 +405,7 @@ set the LC_CTYPE variable in locale.conf
 set the LC_TIME variable in locale.conf
 set the LC_COLLATE variable in locale.conf
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 echo LANG=en_US.UTF-8 > /etc/locale.conf
 ```
@@ -424,24 +424,24 @@ echo LC_COLLATE=en_US.UTF-8 > /etc/locale.conf
 
 Export the LANG variable with the locale specified
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 export LANG=en_US.UTF-8
 ```
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 ls /usr/share/zoneinfo/America/
 ```
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 ls /usr/share/zoneinfo/Europe/
 ```
 
 /* **ln -sf** - Generates a symbolic link is an access to the file
 
-***[root@archiso /]#***
+**[root@archiso /]#**
 ```bash
 ln -sf /usr/share/zoneinfo/America/<name of your area> /etc/localtime
 ```
