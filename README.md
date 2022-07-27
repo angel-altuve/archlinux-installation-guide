@@ -1,10 +1,10 @@
 # archlinux installation guide 
 
-# # first steps 
+## first steps 
 
-Internet connection:
+**Internet connection:**
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 ip link
 ```
@@ -13,7 +13,7 @@ Executing this command will show you various interfaces, i.e. devices, to connec
 
 Next we will have to activate this device to be able to use it, to activate it we execute the following command:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 ip link set wlan0 up
 ```
@@ -22,7 +22,7 @@ If the device has been successfully activated then we can proceed. If it is not 
 
 To check if the device has been turned on, we execute the previous command again:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 
 ```bash
 ip link
@@ -36,7 +36,7 @@ Once we have the device turned on we will have to scan the Wi-Fi networks that w
 
 To perform a scan of Wi-Fi networks we will have to execute the following command:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 iwlist wlan0 scan
 ```
@@ -51,21 +51,21 @@ If the Wi-Fi network to which we want to connect uses the WPA or WPA2 encryption
 
 The first command is to configure the password that we are going to use and the ESSID, and we save it in a configuration file, for example **“/etc/wifi”**:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 wpa_passphrase <WiFi network name> <passwd> > /etc/wifi
 ```
 
 The file **«/etc/wifi»** that has been generated can be viewed with the command:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 cat /etc/wifi
 ```
 
 Next we will have to connect to this Wi-Fi network using the configuration file that we have generated, for this we will have to execute the following command:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 wpa_supplicant -B -i wlan0 -D wext -c /etc/wifi
 ```
@@ -84,7 +84,7 @@ Finally, the **-c** argument is used to indicate the configuration file to use, 
 
 Once we have made the connection, depending on the type of Wi-Fi network password, we will have to end the connection and establish an IP negotiation. This may seem very complicated, but it really is not, since we only have to execute a single command:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 dhclient
 ```
@@ -93,7 +93,7 @@ The **dhclient** command is used to perform **IP** negotiation, that is, to obta
 
 Once this is done, we would already have a connection via Wi-Fi, which we can check in the same way as if we were using cable with the “**ping**” command:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ``` bash
 ping google.com
 ```
@@ -102,7 +102,7 @@ ping google.com
 
 ****To consult the partition table of your hard disk where you are going to install the Operating System, use the following command.
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 fdisk -l
 ```
@@ -145,7 +145,7 @@ We can have **/boot/** in a partition
 
 We can have **/home/** in another partition
 
-***/home/** the HOME folder stores the files of all users something similar to a DISK D: of windows*
+**/home/** the HOME folder stores the files of all users something similar to a DISK D: of windows*
 
 *It all depends if we want to have it separated in another partition*
 
@@ -165,7 +165,7 @@ More than 8GB of physical RAM >> 2GB to 4GB of SWAP
 
 Understood these concepts we execute **cfdisk**
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
  cfdisk /dev/sda
 ```
@@ -200,35 +200,35 @@ Ext4 is a Linux journaling file system.
 
 Virtual memory partition or SWAP swap memory:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 mkswap /dev/sda1
 ```
 
 Format Root Partition into one partition:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 mkfs.ext4 /dev/sda2
 ```
 
 Format Home Partition into one partition:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 mkfs.ext4 /dev/sda3
 ```
 
 Activate SWAP partition:
 
-***root@archiso ~ #***
+**root@archiso ~ #**
 ```bash
 swapon /dev/sda1
 ```
 
 ### **Mount the partitions**
 
-Now for root in this example it is ***/dev/sda2*** which must be mounted first since everything starts with ***ROOT /***
+Now for root in this example it is **/dev/sda2** which must be mounted first since everything starts with ***ROOT /***
 
 ***root@archiso ~ #***
 ```bash
