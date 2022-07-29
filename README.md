@@ -411,15 +411,15 @@ echo LANG=en_US.UTF-8 > /etc/locale.conf
 ```
 
 ``` bash
-echo LC_CTYPE=en_US.UTF-8 > /etc/locale.conf
+echo LC_CTYPE=en_US.UTF-8 >> /etc/locale.conf
 ```
 
 ``` bash
-echo LC_TIME=en_US.UTF-8 > /etc/locale.conf
+echo LC_TIME=en_US.UTF-8 >> /etc/locale.conf
 ```
 
 ``` bash
-echo LC_COLLATE=en_US.UTF-8 > /etc/locale.conf
+echo LC_COLLATE=en_US.UTF-8 >> /etc/locale.conf
 ```
 
 Export the LANG variable with the locale specified
