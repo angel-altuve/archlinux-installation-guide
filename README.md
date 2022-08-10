@@ -8,8 +8,18 @@
     - [Mount the partitions](#mount-the-partitions) 
     - [Mirrorlist generator inside LiveCD](#mirrorlist-generator-inside-liveCD)
     - [System Installation](#system-Installation)
-    - [User Configuration](#user-configuration) 
-
+    - [User Configuration](#user-configuration)
+    - [Activating Services](#activating-services)
+    - [GRUB - Bootloader](#grub-bootloader)
+    - [Customizing PACMAN](#customizing-pacman)
+    - [Extra Programs](#extra-programs)
+    - [X.Org Server](#x.org-server)
+    - [Video driver](#Video driver)
+    - [Audio](#audio)
+    - [letter fonts](#letter fonts)
+    - [Installation paru](#installation-paru)
+    - [Supplemental Firmware](#supplemental-firmware) 
+    
 ## first steps 
 
 ## **Internet connection**
@@ -735,6 +745,10 @@ sudo pacman -Sy neofetch
 sudo pacman -Sy intel-ucode
 ```
 
+``` bash
+ pacman -Sy amd-ucode
+```
+
 Processor manufacturers release stability and security updates for processor microcode **(closed source)**
 
 We don't have the common directories:
@@ -776,13 +790,7 @@ X.Org Server provides the standard tools to provide graphical interfaces
 X.Org is required for both Desktop environment (DE) and Window manager (WM)
 
 ```bash
-sudo pacman -Sy xorg xorg-apps xorg-xinit xorg-twm xterm xorg-xclock
-```
-
-To execute X.org
-
-```bash
-startx
+sudo pacman -Sy xorg xorg-apps xorg-xinit xterm 
 ```
 
 ### **Video driver**
@@ -798,6 +806,26 @@ lspci | grep VGA
 ```bash
 sudo pacman -S xf86-video-intel
 ```
+
+
+**for Amd cards**
+
+``` bash
+sudo pacman -S xf86-video-ati
+```
+
+**for nvidia cards**
+
+``` bash
+sudo pacman -S xf86-video-nouveau
+```
+
+**for other cards**
+
+``` bash
+sudo pacman -Ss xf86-video
+```
+
 
 **Audio**
 
@@ -843,7 +871,7 @@ makepkg -si
 rm -rf paru
 ```
 
-Supplemental Firmware
+### **Supplemental Firmware**
 
 ```bash
 paru -S mkinitcpio-firmware
