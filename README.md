@@ -6,8 +6,9 @@
     - [partition disks](#partition-disk) 
     - [Format the partitions](#format-the-partitions)
     - [Mount the partitions](#mount-the-partitions) 
-    - [License](#License)
- 
+    - [Mirrorlist generator inside LiveCD](#mirrorlist-generator-inside-liveCD)
+    - [System Installation](#system-Installation)
+    - [User Configuration](#user-configuration) 
 
 ## first steps 
 
