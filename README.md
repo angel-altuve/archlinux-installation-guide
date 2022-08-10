@@ -14,9 +14,9 @@
     - [Customizing PACMAN](#customizing-pacman)
     - [Extra Programs](#extra-programs)
     - [X.Org Server](#x.org-server)
-    - [Video driver](#Video driver)
+    - [Video driver](#video-driver)
     - [Audio](#audio)
-    - [letter fonts](#letter fonts)
+    - [letter fonts](#letter-fonts)
     - [Installation paru](#installation-paru)
     - [Supplemental Firmware](#supplemental-firmware) 
     
