@@ -2,16 +2,16 @@
 
 - Table of Contents
     
-    - [internet](#internet-connection)
+    - [internet connection](#internet-connection)
     - [partition disks](#partition-disk) 
-    - [Installation dependencies](#Installation-dependencies)
+    - [Format the partitions](#format-the-partitions)
     - [Installation dotfiles](#Installation-dotfiles) 
     - [License](#License)
  
 
 ## first steps 
 
-## **Internet connection:**
+## **Internet connection**
 
 **root@archiso ~ #**
 ```bash
