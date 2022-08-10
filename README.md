@@ -1,8 +1,17 @@
 # archlinux installation guide 
 
+- Table of Contents
+    
+    - [internet](#internet-connection)
+    - [partition disks](#partition-disk:) 
+    - [Installation dependencies](#Installation-dependencies)
+    - [Installation dotfiles](#Installation-dotfiles) 
+    - [License](#License)
+ 
+
 ## first steps 
 
-**Internet connection:**
+## **Internet connection:**
 
 **root@archiso ~ #**
 ```bash
