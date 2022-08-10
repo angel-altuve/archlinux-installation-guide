@@ -812,7 +812,7 @@ sudo pacman -S --needed base-devel
 clone paru repository:
 
 ```bash
-git clone [https://aur.archlinux.org/paru.git](https://aur.archlinux.org/paru.git)
+git clone https://aur.archlinux.org/paru.git
 ```
 
 Change to paru Directory:
