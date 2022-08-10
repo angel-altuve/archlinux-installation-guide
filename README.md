@@ -1,11 +1,11 @@
 # archlinux installation guide 
 
 - Table of Contents
-    
+
     - [internet connection](#internet-connection)
     - [partition disks](#partition-disk) 
     - [Format the partitions](#format-the-partitions)
-    - [Installation dotfiles](#Installation-dotfiles) 
+    - [Mount the partitions](#mount-the-partitions) 
     - [License](#License)
  
 
