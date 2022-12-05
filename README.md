@@ -1,30 +1,31 @@
-# archlinux installation guide 
+# archlinux installation guide
 
 - Table of Contents
 
-    - [internet connection](#internet-connection)
-    - [partition disks](#partition-disk) 
-    - [Format the partitions](#format-the-partitions)
-    - [Mount the partitions](#mount-the-partitions) 
-    - [Mirrorlist generator inside LiveCD](#mirrorlist-generator-inside-liveCD)
-    - [System Installation](#system-Installation)
-    - [User Configuration](#user-configuration)
-    - [Activating Services](#activating-services)
-    - [GRUB - Bootloader](#grub-bootloader)
-    - [Customizing PACMAN](#customizing-pacman)
-    - [Extra Programs](#extra-programs)
-    - [X.Org Server](#x.org-server)
-    - [Video driver](#video-driver)
-    - [Audio](#audio)
-    - [letter fonts](#letter-fonts)
-    - [Installation paru](#installation-paru)
-    - [Supplemental Firmware](#supplemental-firmware) 
-    
-## first steps 
+  - [internet connection](#internet-connection)
+  - [partition disks](#partition-disk)
+  - [Format the partitions](#format-the-partitions)
+  - [Mount the partitions](#mount-the-partitions)
+  - [Mirrorlist generator inside LiveCD](#mirrorlist-generator-inside-liveCD)
+  - [System Installation](#system-Installation)
+  - [User Configuration](#user-configuration)
+  - [Activating Services](#activating-services)
+  - [GRUB - Bootloader](#grub-bootloader)
+  - [Customizing PACMAN](#customizing-pacman)
+  - [Extra Programs](#extra-programs)
+  - [X.Org Server](#x.org-server)
+  - [Video driver](#video-driver)
+  - [Audio](#audio)
+  - [letter fonts](#letter-fonts)
+  - [Installation paru](#installation-paru)
+  - [Supplemental Firmware](#supplemental-firmware)
+
+## first steps
 
 ## **Internet connection**
 
 **root@archiso ~ #**
+
 ```bash
 ip link
 ```
@@ -34,6 +35,7 @@ Executing this command will show you various interfaces, i.e. devices, to connec
 Next we will have to activate this device to be able to use it, to activate it we execute the following command:
 
 **root@archiso ~ #**
+
 ```bash
 ip link set wlan0 up
 ```
@@ -57,6 +59,7 @@ Once we have the device turned on we will have to scan the Wi-Fi networks that w
 To perform a scan of Wi-Fi networks we will have to execute the following command:
 
 **root@archiso ~ #**
+
 ```bash
 iwlist wlan0 scan
 ```
@@ -72,6 +75,7 @@ If the Wi-Fi network to which we want to connect uses the WPA or WPA2 encryption
 The first command is to configure the password that we are going to use and the ESSID, and we save it in a configuration file, for example **“/etc/wifi”**:
 
 **root@archiso ~ #**
+
 ```bash
 wpa_passphrase <WiFi network name> <passwd> > /etc/wifi
 ```
@@ -79,6 +83,7 @@ wpa_passphrase <WiFi network name> <passwd> > /etc/wifi
 The file **«/etc/wifi»** that has been generated can be viewed with the command:
 
 **root@archiso ~ #**
+
 ```bash
 cat /etc/wifi
 ```
@@ -86,6 +91,7 @@ cat /etc/wifi
 Next we will have to connect to this Wi-Fi network using the configuration file that we have generated, for this we will have to execute the following command:
 
 **root@archiso ~ #**
+
 ```bash
 wpa_supplicant -B -i wlan0 -D wext -c /etc/wifi
 ```
@@ -105,6 +111,7 @@ Finally, the **-c** argument is used to indicate the configuration file to use, 
 Once we have made the connection, depending on the type of Wi-Fi network password, we will have to end the connection and establish an IP negotiation. This may seem very complicated, but it really is not, since we only have to execute a single command:
 
 **root@archiso ~ #**
+
 ```bash
 dhclient
 ```
@@ -114,15 +121,17 @@ The **dhclient** command is used to perform **IP** negotiation, that is, to obta
 Once this is done, we would already have a connection via Wi-Fi, which we can check in the same way as if we were using cable with the “**ping**” command:
 
 **root@archiso ~ #**
-``` bash
+
+```bash
 ping google.com
 ```
 
 ## **Partition disk:**
 
-****To consult the partition table of your hard disk where you are going to install the Operating System, use the following command.
+\*\*\*\*To consult the partition table of your hard disk where you are going to install the Operating System, use the following command.
 
 **root@archiso ~ #**
+
 ```bash
 fdisk -l
 ```
@@ -142,18 +151,18 @@ Disk path can be:
 /dev/nvme0n1 (veMMC or SD Card)
 
 /dev/mmcblk0 (veMMC or SD Card)
+
 ## lsblk
 
 ### **Create the partitions**
 
 **>> Arch Linux includes the following partitioning tools:**
 
-
-| Software               | MBR             |GPT
-| ---------------------- | --------------  |-------------
-| Dialog                 | fdisk, parted   |fdisk, cgdisk, 
-| pseudo-graphics        | cfdisk          | cgdisk, cfdisk
-| no-iterative           | sfdisk, parted  |sfdisk, sgdisk parted
+| Software        | MBR            | GPT                   |
+| --------------- | -------------- | --------------------- |
+| Dialog          | fdisk, parted  | fdisk, cgdisk,        |
+| pseudo-graphics | cfdisk         | cgdisk, cfdisk        |
+| no-iterative    | sfdisk, parted | sfdisk, sgdisk parted |
 
 **>> Linux file structure**
 
@@ -165,9 +174,9 @@ We can have **/boot/** in a partition
 
 We can have **/home/** in another partition
 
-**/home/** the HOME folder stores the files of all users something similar to a DISK D: of windows*
+**/home/** the HOME folder stores the files of all users something similar to a DISK D: of windows\*
 
-*It all depends if we want to have it separated in another partition*
+_It all depends if we want to have it separated in another partition_
 
 Which can be good or bad, depends on the needs of the user
 
@@ -186,19 +195,20 @@ More than 8GB of physical RAM >> 2GB to 4GB of SWAP
 Understood these concepts we execute **cfdisk**
 
 **root@archiso ~ #**
+
 ```bash
  cfdisk /dev/sda
 ```
 
-/*Let's start by deleting the partitions in **[ Delete ]** and creating new ones in **[ New ]**
+/\*Let's start by deleting the partitions in **[ Delete ]** and creating new ones in **[ New ]**
 
-/* We select **[ Bootable ]** where the Root partition is
+/\* We select **[ Bootable ]** where the Root partition is
 
-/* We can create several partitions and they will only be generated: **sda1, sda2, sda3...**
+/\* We can create several partitions and they will only be generated: **sda1, sda2, sda3...**
 
-/* We can create the partitions and change the partition type in **[ Type ]**
+/\* We can create the partitions and change the partition type in **[ Type ]**
 
-/***Up / Down Arrow - Right / Left Arrows** - to move in cfdisk
+/**\*Up / Down Arrow - Right / Left Arrows** - to move in cfdisk
 
 **In this example we will use:**
 
@@ -208,7 +218,7 @@ sda2 > root
 
 Sda3 > Home
 
-/* At the end of the partitioning we give it in **[ Write ]** to write the changes
+/\* At the end of the partitioning we give it in **[ Write ]** to write the changes
 
 ## **Format the partitions**
 
@@ -221,6 +231,7 @@ Ext4 is a Linux journaling file system.
 Virtual memory partition or SWAP swap memory:
 
 **root@archiso ~ #**
+
 ```bash
 mkswap /dev/sda1
 ```
@@ -228,6 +239,7 @@ mkswap /dev/sda1
 Format Root Partition into one partition:
 
 **root@archiso ~ #**
+
 ```bash
 mkfs.ext4 /dev/sda2
 ```
@@ -235,6 +247,7 @@ mkfs.ext4 /dev/sda2
 Format Home Partition into one partition:
 
 **root@archiso ~ #**
+
 ```bash
 mkfs.ext4 /dev/sda3
 ```
@@ -242,33 +255,37 @@ mkfs.ext4 /dev/sda3
 Activate SWAP partition:
 
 **root@archiso ~ #**
+
 ```bash
 swapon /dev/sda1
 ```
 
 ### **Mount the partitions**
 
-Now for root in this example it is **/dev/sda2** which must be mounted first since everything starts with ***ROOT /***
+Now for root in this example it is **/dev/sda2** which must be mounted first since everything starts with **_ROOT /_**
 
 **root@archiso ~ #**
+
 ```bash
 mount /dev/sda2 /mnt/
 ```
 
 To mount the partitions we need to first create the logical mount paths.
 
-If you are going to install Archlinux as a single system in BIOS/Legacy mode, then we need to create ***/mnt*** and inside this directory include **/boot** or **/home** or * **/tmp** or etc...
+If you are going to install Archlinux as a single system in BIOS/Legacy mode, then we need to create **_/mnt_** and inside this directory include **/boot** or **/home** or \* **/tmp** or etc...
 
 In this case we only have **/home** on /dev/sda3
 
 **root@archiso ~ #**
+
 ```bash
 mkdir -p /mnt/home/
 ```
 
 Mounting the Boot partition **/boot**
 
-***root@archiso ~ #***
+**_root@archiso ~ #_**
+
 ```bash
 mount /dev/sda3 /mnt/home
 ```
@@ -276,6 +293,7 @@ mount /dev/sda3 /mnt/home
 We verify that the directories have been created correctly
 
 **root@archiso ~ #**
+
 ```bash
 ls /mnt/
 ```
@@ -293,6 +311,7 @@ But there are many cases that pacstrap finds it a very slow download and that is
 To have the fastest Mirrors to have better downloads we will use **reflector**
 
 **root@archiso ~ #**
+
 ```bash
 pacman -Sy reflector python --noconfirm
 ```
@@ -300,6 +319,7 @@ pacman -Sy reflector python --noconfirm
 To run reflector and have the best Mirrors Servers is:
 
 **root@archiso ~ #**
+
 ```bash
 reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
 ```
@@ -309,6 +329,7 @@ To review the list of Mirrors Servers and confirm that Reflector did it, the com
 We confirm by comparing where it says **by Reflector**
 
 **root@archiso ~ #**
+
 ```bash
 cat /etc/pacman.d/mirrorlist
 ```
@@ -318,26 +339,28 @@ cat /etc/pacman.d/mirrorlist
 **Specification of the necessary packages.**
 
 **root@archiso ~ #**
+
 ```bash
-pacstrap /mnt base base-devel nano
+pacstrap -k /mnt base base-devel nano
 ```
 
-/* **Base installation - base-devel**: programs, settings, directories, etc...
+/\* **Base installation - base-devel**: programs, settings, directories, etc...
 
-/* **Text editor in terminal**: Nano
+/\* **Text editor in terminal**: Nano
 
 **root@archiso ~ #**
+
 ```bash
 pacstrap /mnt linux-firmware linux linux-headers mkinitcpio
 ```
 
-/* **linux-firmware**: Generally proprietary driver binaries, Modern graphics cards from AMD, NVIDIA and Intel Wi-Fi require blob loading for the hardware to function properly.
+/\* **linux-firmware**: Generally proprietary driver binaries, Modern graphics cards from AMD, NVIDIA and Intel Wi-Fi require blob loading for the hardware to function properly.
 
-/* **linux**: kernel in its stable version
+/\* **linux**: kernel in its stable version
 
-/* **linux-headers**: kernel headers in its stable version
+/\* **linux-headers**: kernel headers in its stable version
 
-/* **mkinitcpio**: Initramfs image creation utility for the kernel
+/\* **mkinitcpio**: Initramfs image creation utility for the kernel
 
 After Kernel installation, Automatic Linux IMGs will be created in **/boot/** folder thanks to **mkinitcpio**
 
@@ -346,19 +369,31 @@ After Kernel installation, Automatic Linux IMGs will be created in **/boot/** fo
 The following packages allow us to manage Internet connections
 
 **root@archiso ~ #**
+
 ```bash
 pacstrap /mnt dhcpcd networkmanager net-tools wpa_supplicant dialog netctl
 ```
+
 In case you use a laptop, for Bluetooth: (optional)
 
 **root@archiso ~ #**
+
 ```bash
-pacstrap /mnt bluez bluez-utils pulseaudio-bluetooth
+pacstrap /mnt bluez bluez-libs bluez-utils pulseaudio-bluetooth
+```
+
+**root@archiso ~ #**
+
+for laptops
+
+```bash
+pacstrap /mnt tlp
 ```
 
 If you get an error when using pacstrap of the type "error: could not open file /mnt/var/lib/pacman/sync/core.db: Unrecognized archive format" we have to remove the "...sync/" directory recursively in order to solve it.
 
 **root@archiso ~ #**
+
 ```bash
 rm -R /mnt/var/lib/pacman/sync/
 ```
@@ -370,15 +405,17 @@ It is used to define how the partitions,
 These definitions were dynamically mounted on boot
 
 **root@archiso ~ #**
+
 ```bash
-genfstab -p /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-**/*After generating the fstab file for our partition labels**
+**/\*After generating the fstab file for our partition labels**
 
-**/*We check with:**
+**/\*We check with:**
 
 **root@archiso ~ #**
+
 ```bash
 cat /mnt/etc/fstab
 ```
@@ -388,24 +425,26 @@ cat /mnt/etc/fstab
 We enter the root of the new system as the root user.
 
 **root@archiso ~ #**
+
 ```bash
 arch-chroot /mnt
 ```
 
-/* Enter root as root
+/\* Enter root as root
 
-/* We see change the color and change the **~** of the livecd by **/** which means root.
+/\* We see change the color and change the **~** of the livecd by **/** which means root.
 
-/* Within our system we are going to configure language, keyboard, time and users.
+/\* Within our system we are going to configure language, keyboard, time and users.
 
 **[root@archiso /]#**
+
 ```bash
 nano /etc/locale.gen
 ```
 
-/* We remove the **#** which is a comment in our language >> **en** and our country
+/\* We remove the **#** which is a comment in our language >> **en** and our country
 
-/*Must end in **en_US.UTF-8**
+/\*Must end in **en_US.UTF-8**
 
 Ctrl + W to search for words in nano
 
@@ -416,6 +455,7 @@ Ctrl + X to close in nano
 We generate the selected language
 
 **[root@archiso /]#**
+
 ```bash
 locale-gen
 ```
@@ -426,42 +466,46 @@ set the LC_TIME variable in locale.conf
 set the LC_COLLATE variable in locale.conf
 
 **[root@archiso /]#**
+
 ```bash
-echo LANG=en_US.UTF-8 > /etc/locale.conf
-```
-
-``` bash
-echo LC_CTYPE=en_US.UTF-8 >> /etc/locale.conf
-```
-
-``` bash
-echo LC_TIME=en_US.UTF-8 >> /etc/locale.conf
-```
-
-``` bash
-echo LC_COLLATE=en_US.UTF-8 >> /etc/locale.conf
+nano /etc/locale.conf
+LANG=en_US.UTF-8
+LC_CTYPE=en_US.UTF-8
+LC_ADDRESS=en_US.UTF-8
+LC_IDENTIFICATION=en_US.UTF-8
+LC_MEASUREMENT=en_US.UTF-8
+LC_MONETARY=en_US.UTF-8
+LC_NAME=en_US.UTF-8
+LC_NUMERIC=en_US.UTF-8
+LC_PAPER=es_VE.UTF-8
+LC_TELEPHONE=en_US.UTF-8
+LC_TIME=en_US.UTF-8
 ```
 
 Export the LANG variable with the locale specified
 
 **[root@archiso /]#**
+
 ```bash
 export LANG=en_US.UTF-8
 ```
 
 **[root@archiso /]#**
+
 ```bash
 ls /usr/share/zoneinfo/America/
 ```
 
 **[root@archiso /]#**
+
 ```bash
 ls /usr/share/zoneinfo/Europe/
 ```
 
-/* **ln -sf** - Generates a symbolic link is an access to the file
+/\* **ln -sf** - Generates a symbolic link is an access to the file
 
 **[root@archiso /]#**
+
 ```bash
 ln -sf /usr/share/zoneinfo/America/Region/City  /etc/localtime
 ```
@@ -471,17 +515,18 @@ ln -sf /usr/share/zoneinfo/America/Region/City  /etc/localtime
 The system is configured to read the computer's internal clock, then the system clock
 
 **[root@archiso /]#**
+
 ```bash
 hwclock --systohc
 ```
 
-Use timedatectl to ensure the system clock is accurate: 
+Use timedatectl to ensure the system clock is accurate:
 
 **[root@archiso /]#**
+
 ```bash
  timedatectl set-ntp true
 ```
-
 
 Define the keyboard layout in vconsole.conf
 
@@ -490,8 +535,12 @@ so that it remains in each reboot only applies to the virtual terminal.
 to keep it active on your Desktop (DE) is another command.
 
 **[root@archiso /]#**
+
 ```bash
-echo KEYMAP=us > /etc/vconsole.conf
+nano /etc/vconsole.conf
+KEYMAP=us
+FONT=lat1-16
+FONT_MAP=8859-2
 ```
 
 Team name, this is not **USER!**
@@ -499,6 +548,7 @@ Team name, this is not **USER!**
 In **name_of_pc** they change it for one to your liking, **later on they will create a user**
 
 **[root@archiso /]#**
+
 ```bash
 echo <Pc_name> > /etc/hostname
 ```
@@ -509,9 +559,13 @@ It is important to know what name they put in **Hostname** because it will be us
 
 ```bash
 nano /etc/hosts
-127.0.0.1 [tab] localhost
-::1 [tab] localhost
-127.0.1.1 [tab] <pc_name>.localdomain(space)<pc_name>
+# Standard host addresses
+127.0.0.1  localhost
+::1        localhost ip6-localhost ip6-loopback
+ff02::1    ip6-allnodes
+ff02::2    ip6-allrouters
+# This host address
+127.0.1.1  <pc-name>
 ```
 
 Ctrl + O to save to nano
@@ -523,6 +577,7 @@ Ctrl + X to close in nano
 Password for root:
 
 **[root@archiso /]#**
+
 ```bash
 passwd root
 ```
@@ -530,11 +585,13 @@ passwd root
 We create our user, to enter our system.
 
 **[root@archiso /]#**
+
 ```bash
 useradd -m -g users -G wheel -s /bin/bash <Username>
 ```
 
 **[root@archiso /]#**
+
 ```bash
 passwd <Username>
 ```
@@ -546,6 +603,7 @@ Now with our user if we want to do something as root we usually use SUDO
 Sudo will take effect if our user is in the **Sudoers** list.
 
 **[root@archiso /]#**
+
 ```bash
 nano /etc/sudoers
 ```
@@ -555,6 +613,7 @@ We look for **root ALL=(ALL) ALL** and below we put our user
 So that you have same permissions and privileges when running sudo.
 
 **[root@archiso /]#**
+
 ```bash
 <username> ALL=(ALL) ALL
 ```
@@ -576,6 +635,7 @@ The subnet mask, Thanks to "systemd" we can activate that service
 Automatic detection and configuration to connect to the network, respect capitalization
 
 **[root@archiso /]#**
+
 ```bash
 systemctl enable dhcpcd NetworkManager
 ```
@@ -583,6 +643,7 @@ systemctl enable dhcpcd NetworkManager
 If you installed Bluetooth packages activate the service:
 
 **[root@archiso /]#**
+
 ```bash
 systemctl enable bluetooth
 ```
@@ -601,7 +662,7 @@ Sort them based on their speed, and overwrite the **/etc/pacman.d/mirrorlist fil
 
 **[root@archiso /]#**
 
-``` bash
+```bash
  reflector --verbose --latest 15 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
@@ -625,10 +686,6 @@ grub-install /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-```bash
-mkinitcpio -p
-```
-
 ### **Leaving LiveCD**
 
 ```bash
@@ -647,7 +704,6 @@ umount -R /mnt
 
 And finally we restart, ** we remove the USB or the CD when the pc is turned off **
 
-
 ```bash
 reboot
 ```
@@ -660,7 +716,7 @@ ip link
 
 **we activate our network card with the following command**
 
-``` bash
+```bash
 sudo ip link set <"network card name"> up
 ```
 
@@ -672,15 +728,16 @@ nmcli dev wifi list
 
 If the network has spaces we just put single or double quotes in the bssid:
 
-``` bash
+```bash
 sudo nmcli dev wifi connect <network name> password <password>
 ```
 
 We check the connection:
 
-```bash 
+```bash
 nmcli dev status
 ```
+
 We are ready to start downloading in our system
 
 **But always before doing any installation we always update the system with:**
@@ -699,7 +756,7 @@ sudo nano /etc/pacman.conf
 
 We are located in the part that says: **# Misc options**
 
- ```bash
+```bash
 # Misc options
 #UseSyslog
 Color
@@ -708,6 +765,7 @@ CheckSpace
 VerbosePkgLists
 ParallelDownloads = 5
 ILoveCandy
+DisableDownloadTimeout
 ```
 
 And we add **ILoveCandy** (it's a capital i and then an L)
@@ -730,12 +788,12 @@ sudo pacman -Syu
 ### **Extra Programs**
 
 ```bash
-sudo pacman -Sy git wget
+sudo pacman -Sy git wget curl --needed
 ```
 
-/* Downloads with git
+/\* Downloads with git
 
-/* Download with wget
+/\* Download with wget
 
 ```bash
 sudo pacman -Sy neofetch
@@ -745,7 +803,7 @@ sudo pacman -Sy neofetch
 sudo pacman -Sy intel-ucode
 ```
 
-``` bash
+```bash
  pacman -Sy amd-ucode
 ```
 
@@ -790,7 +848,7 @@ X.Org Server provides the standard tools to provide graphical interfaces
 X.Org is required for both Desktop environment (DE) and Window manager (WM)
 
 ```bash
-sudo pacman -Sy xorg xorg-apps xorg-xinit xterm 
+sudo pacman -Sy xorg xorg-apps xorg-xinit xterm
 ```
 
 ### **Video driver**
@@ -807,39 +865,43 @@ lspci | grep VGA
 sudo pacman -S xf86-video-intel
 ```
 
-
 **for Amd cards**
 
-``` bash
+```bash
 sudo pacman -S xf86-video-ati
 ```
 
 **for nvidia cards**
 
-``` bash
+```bash
 sudo pacman -S xf86-video-nouveau
 ```
 
 **for other cards**
 
-``` bash
+```bash
 sudo pacman -Ss xf86-video
 ```
-
 
 **Audio**
 
 ```bash
-sudo pacman -S pulseaudio pulseaudio-alsa alsa-mixer pavucontrol
+sudo pacman -S pulseaudio pulseaudio-alsa alsa-firmware pavucontrol
 ```
 
 ### **letter fonts**
 
 ```bash
-sudo pacman -S  ttf-hack ttf-jetbrains-mono ttf-joypixels ttf-ms-fonts ttf-ubuntu-font-family otf-font-awesomeotf adobe-source-code-pro-fonts adobe-source-sans-fonts
+sudo pacman -S arcolinux-fonts-git awesome-terminal-fonts adobe-source-sans-fonts cantarell-fonts noto-fonts ttf-bitstream-vera ttf-dejavu ttf-droid ttf-hack ttf-inconsolata ttf-liberation ttf-roboto ttf-ubuntu-font-family tamsyn-font ttf-jetbrains-mono otf-font-awesomeotf ttf-joypixels ttf-ms-fonts ttf-ibm-plex otf-overpass
 ```
 
-### **Installation  paru**
+### add arcolinux repositories
+
+```bash
+curl https://raw.githubusercontent.com/erikdubois/arcolinux-nemesis/master/arch/get-the-keys-and-repos.sh | bash
+```
+
+### **Installation paru and yay**
 
 First install git and base-devel Package Association which contains tools for creating (classifying and linking) packages from source code
 
@@ -847,34 +909,20 @@ First install git and base-devel Package Association which contains tools for cr
 sudo pacman -S --needed base-devel
 ```
 
-clone paru repository:
-
 ```bash
-git clone https://aur.archlinux.org/paru.git
+sudo pacman -S paru yay
 ```
 
-Change to paru Directory:
+### other fonts
 
 ```bash
-cd paru
-```
-
-Finally, create and install the Paru AUR helper on Arch Linux using the command:
-
-```bash
-makepkg -si
-```
-
-**note delete the paru folder this can avoid problems**
-
-``` bash
-rm -rf paru
+paru -S ttf-juliamono nerd-fonts-jetbrains-mono
 ```
 
 ### **Supplemental Firmware**
 
 ```bash
-paru -S mkinitcpio-firmware
+sudo pacman -S mkinitcpio-firmware
 ```
 
 **go through my xmonad configuration**
